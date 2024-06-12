@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ReservaSantander">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/ReservaSantander.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
