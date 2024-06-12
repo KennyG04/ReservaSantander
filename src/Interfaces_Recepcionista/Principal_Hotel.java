@@ -1,22 +1,29 @@
 package Interfaces_Recepcionista;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.ImageIcon;
-import tipografias.Fuentes;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 
 public class Principal_Hotel extends javax.swing.JFrame {
     
-    Fuentes tipoFuente;
     ImageIcon icon = new ImageIcon("src/Imagenes/HotelSantanderIcon.png");
     private int button = 0;
     
     public Principal_Hotel() {
         initComponents();
         setDefaultGUI();
-        tipoFuente = new Fuentes();
         this.setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setTitle("Hotel Santander");
@@ -25,14 +32,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
         
         this.setIconImage(icon.getImage());
         
-        //update text font
-        RentB.setFont(tipoFuente.fuente(tipoFuente.QS,1,25));
-        RoomsButton.setFont(tipoFuente.fuente(tipoFuente.QS,1,18));
-        CleanningB.setFont(tipoFuente.fuente(tipoFuente.QS,1,18));
-        SellsB.setFont(tipoFuente.fuente(tipoFuente.QS,1,18));
-        FormB.setFont(tipoFuente.fuente(tipoFuente.QS,1,18));
-        AdditionalsB.setFont(tipoFuente.fuente(tipoFuente.QS,1,18));
-        SwitchAccountB.setFont(tipoFuente.fuente(tipoFuente.QS,1,18));
     }
     
     public void setResolution(){
@@ -286,6 +285,11 @@ public class Principal_Hotel extends javax.swing.JFrame {
         RentB.setBackground(new java.awt.Color(73, 114, 116));
         RentB.setForeground(new java.awt.Color(255, 255, 255));
         RentB.setText("Alquilar");
+        RentB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RentBActionPerformed(evt);
+            }
+        });
         MainPanel.add(RentB, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 640, 290, 100));
 
         getContentPane().add(MainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
@@ -708,6 +712,26 @@ public class Principal_Hotel extends javax.swing.JFrame {
         selectedButton(button);
     }//GEN-LAST:event_jButton37ActionPerformed
     
+    private void RentBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RentBActionPerformed
+        // TODO add your handling code here:
+        selectedButton(1);
+    }//GEN-LAST:event_RentBActionPerformed
+    public void setFont(Container container, Font font){
+        // Cargar y aplicar la fuente personalizada
+        /*try {
+            Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/Fuentes/more-sugar.regular.ttf")).deriveFont(14f);
+            setFontForComponents(getContentPane(), customFont);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+        for (Component component : container.getComponents()) {
+            if (component instanceof JButton || component instanceof JLabel) {
+                component.setFont(font);
+            } else if (component instanceof Container) {
+                setFontForComponents((Container) component, font);  // Recursión
+            }
+        }*/
+    }
     public void setDefaultGUI(){
         RoomsPanel.setVisible(false);
         InformationPanel.setVisible(false);
@@ -735,7 +759,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 CleaningPanel.setVisible(false);
                 AdditionalsPanel.setVisible(false);
                 AboutPanel.setVisible(false);
-                MainPanel.setVisible(false);
                 LateralLoginPanel.setVisible(false);
                 LoginPanel.setVisible(false);
                 break;
@@ -777,9 +800,9 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 //facturacion
                 RoomsPanel.setVisible(false);
                 InformationPanel.setVisible(false);
-                FacturationPanel.setVisible(false);
+                FacturationPanel.setVisible(true);
                 CleaningPanel.setVisible(false);
-                AdditionalsPanel.setVisible(true);
+                AdditionalsPanel.setVisible(false);
                 AboutPanel.setVisible(false);
                 MainPanel.setVisible(false);
                 break;
