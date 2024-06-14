@@ -29,6 +29,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         this.setTitle("Hotel Santander");
         rsscalelabel.RSScaleLabel.setScaleLabel(LogoLateralPanelL, "src/imagenes/HotelSantanderIcon.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(LogoL, "src/imagenes/HotelSantanderIcon.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(LogoLateralPanelL1, "src/imagenes/HotelSantanderIcon.png");
         
         this.setIconImage(icon.getImage());
         try {
@@ -179,9 +180,10 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jLabel36 = new javax.swing.JLabel();
         LateralLoginPanel = new javax.swing.JPanel();
-        AboutB1 = new javax.swing.JButton();
+        LoginButon = new javax.swing.JButton();
         LogoLateralPanelL1 = new javax.swing.JLabel();
         DocumentationB1 = new javax.swing.JButton();
+        AboutB2 = new javax.swing.JButton();
         LoginPanel = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
@@ -204,7 +206,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 AboutBActionPerformed(evt);
             }
         });
-        LateralPanel.add(AboutB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 960, 140, -1));
+        LateralPanel.add(AboutB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 690, 140, -1));
         LateralPanel.add(LogoLateralPanelL, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 260, 260));
 
         RoomsButton.setBackground(new java.awt.Color(73, 114, 116));
@@ -270,7 +272,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 DocumentationBActionPerformed(evt);
             }
         });
-        LateralPanel.add(DocumentationB, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 960, 120, -1));
+        LateralPanel.add(DocumentationB, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 690, 120, -1));
 
         InformationB.setBackground(new java.awt.Color(73, 114, 116));
         InformationB.setForeground(new java.awt.Color(255, 255, 255));
@@ -621,16 +623,36 @@ public class Principal_Hotel extends javax.swing.JFrame {
         LateralLoginPanel.setBackground(new java.awt.Color(177, 203, 192));
         LateralLoginPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        AboutB1.setBackground(new java.awt.Color(73, 114, 116));
-        AboutB1.setForeground(new java.awt.Color(255, 255, 255));
-        AboutB1.setText("Acerca de");
-        LateralLoginPanel.add(AboutB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 260, -1));
+        LoginButon.setBackground(new java.awt.Color(73, 114, 116));
+        LoginButon.setForeground(new java.awt.Color(255, 255, 255));
+        LoginButon.setText("Login");
+        LoginButon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoginButonActionPerformed(evt);
+            }
+        });
+        LateralLoginPanel.add(LoginButon, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 260, -1));
         LateralLoginPanel.add(LogoLateralPanelL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 260, 260));
 
         DocumentationB1.setBackground(new java.awt.Color(73, 114, 116));
         DocumentationB1.setForeground(new java.awt.Color(255, 255, 255));
         DocumentationB1.setText("Documentacion");
-        LateralLoginPanel.add(DocumentationB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, 260, -1));
+        DocumentationB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DocumentationB1ActionPerformed(evt);
+            }
+        });
+        LateralLoginPanel.add(DocumentationB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 260, -1));
+
+        AboutB2.setBackground(new java.awt.Color(73, 114, 116));
+        AboutB2.setForeground(new java.awt.Color(255, 255, 255));
+        AboutB2.setText("Acerca de");
+        AboutB2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AboutB2ActionPerformed(evt);
+            }
+        });
+        LateralLoginPanel.add(AboutB2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 260, -1));
 
         getContentPane().add(LateralLoginPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 1080));
 
@@ -662,50 +684,42 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
     private void RoomsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RoomsButtonActionPerformed
         // TODO add your handling code here:
-        button = 1;
-        selectedButton(button);
+        selectedButton(1);
     }//GEN-LAST:event_RoomsButtonActionPerformed
 
     private void InformationBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InformationBActionPerformed
         // TODO add your handling code here:
-        button = 2;
-        selectedButton(button);
+        selectedButton(2);
     }//GEN-LAST:event_InformationBActionPerformed
 
     private void CleanningBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CleanningBActionPerformed
         // TODO add your handling code here:
-        button = 3;
-        selectedButton(button);
+        selectedButton(3);
     }//GEN-LAST:event_CleanningBActionPerformed
 
     private void SellsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SellsBActionPerformed
         // TODO add your handling code here:
-        button = 4;
-        selectedButton(button);
+        selectedButton(4);
     }//GEN-LAST:event_SellsBActionPerformed
 
     private void AdditionalsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdditionalsBActionPerformed
         // TODO add your handling code here:
-        button = 5;
-        selectedButton(button);
+        selectedButton(5);
     }//GEN-LAST:event_AdditionalsBActionPerformed
 
     private void SwitchAccountBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SwitchAccountBActionPerformed
         // TODO add your handling code here:
-        button = 8;
-        selectedButton(button);
+        selectedButton(8);
     }//GEN-LAST:event_SwitchAccountBActionPerformed
 
     private void AboutBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutBActionPerformed
-        // TODO add your handling code here:
-        button = 6;
-        selectedButton(button);
+        // TODO add your handling code here
+        selectedButton(6);
     }//GEN-LAST:event_AboutBActionPerformed
 
     private void DocumentationBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DocumentationBActionPerformed
         // TODO add your handling code here:
-        button = 7;
-        selectedButton(button);
+        selectedButton(7);
     }//GEN-LAST:event_DocumentationBActionPerformed
 
     private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
@@ -721,6 +735,21 @@ public class Principal_Hotel extends javax.swing.JFrame {
         // TODO add your handling code here:
         selectedButton(1);
     }//GEN-LAST:event_RentBActionPerformed
+
+    private void LoginButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButonActionPerformed
+        // TODO add your handling code here:
+        selectedButton(11);
+    }//GEN-LAST:event_LoginButonActionPerformed
+
+    private void DocumentationB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DocumentationB1ActionPerformed
+        // TODO add your handling code here:
+        selectedButton(10);
+    }//GEN-LAST:event_DocumentationB1ActionPerformed
+
+    private void AboutB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutB2ActionPerformed
+        // TODO add your handling code here:
+        selectedButton(9);
+    }//GEN-LAST:event_AboutB2ActionPerformed
     private void setFontForComponents(Container container, Font font) {
         for (Component component : container.getComponents()) {
             if (component instanceof JButton || component instanceof JLabel) {
@@ -795,7 +824,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
             case 7:
                 // documentacion
                 LateralPanel.setVisible(true);
-                MainPanel.setVisible(true);
+                ManualPanel.setVisible(true);
                 break;
 
             case 8:
@@ -805,9 +834,23 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 break;
 
             case 9:
-                // No hace nada
+                // ir al panel de about y volver al login
+                LateralLoginPanel.setVisible(true);
+                AboutPanel.setVisible(true);
+                ManualPanel.setVisible(false);
                 break;
-
+                
+            case 10:
+                // ir al panel de manual y volver al login
+                LateralLoginPanel.setVisible(true);
+                ManualPanel.setVisible(true);
+                AboutPanel.setVisible(false);
+                break;
+                
+            case 11:
+                ManualPanel.setVisible(true);
+                AboutPanel.setVisible(false);
+                
             default:
                 // No hace nada
                 break;
@@ -860,7 +903,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AboutB;
-    private javax.swing.JButton AboutB1;
+    private javax.swing.JButton AboutB2;
     private javax.swing.JPanel AboutPanel;
     private javax.swing.JButton AdditionalsB;
     private javax.swing.JPanel AdditionalsPanel;
@@ -874,6 +917,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JPanel InformationPanel;
     private javax.swing.JPanel LateralLoginPanel;
     private javax.swing.JPanel LateralPanel;
+    private javax.swing.JButton LoginButon;
     private javax.swing.JPanel LoginPanel;
     private javax.swing.JLabel LogoL;
     private javax.swing.JLabel LogoLateralPanelL;
