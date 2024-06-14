@@ -62,6 +62,53 @@ public class Principal_Hotel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        QuoteDialog = new javax.swing.JDialog();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        jSlider1 = new javax.swing.JSlider();
+        jLabel45 = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel47 = new javax.swing.JLabel();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabel48 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        jLabel50 = new javax.swing.JLabel();
+        jTextField10 = new javax.swing.JTextField();
+        jTextField13 = new javax.swing.JTextField();
+        jTextField14 = new javax.swing.JTextField();
+        jButton34 = new javax.swing.JButton();
+        jButton36 = new javax.swing.JButton();
+        jButton38 = new javax.swing.JButton();
+        jButton39 = new javax.swing.JButton();
+        AsignCleaningDialog = new javax.swing.JDialog();
+        jLabel51 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel53 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel54 = new javax.swing.JLabel();
+        HourComponent = new javax.swing.JPanel();
+        jSpinner1 = new javax.swing.JSpinner();
+        jSpinner2 = new javax.swing.JSpinner();
+        jSpinner3 = new javax.swing.JSpinner();
+        jLabel55 = new javax.swing.JLabel();
+        jLabel56 = new javax.swing.JLabel();
+        LoadRoomCount = new javax.swing.JDialog();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        jTextField15 = new javax.swing.JTextField();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jButton40 = new javax.swing.JButton();
+        jButton41 = new javax.swing.JButton();
+        jLabel59 = new javax.swing.JLabel();
         LateralPanel = new javax.swing.JPanel();
         AboutB = new javax.swing.JButton();
         LogoLateralPanelL = new javax.swing.JLabel();
@@ -191,6 +238,159 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jTextField11 = new javax.swing.JTextField();
         jTextField12 = new javax.swing.JTextField();
         jButton37 = new javax.swing.JButton();
+
+        QuoteDialog.setMaximumSize(new java.awt.Dimension(797, 490));
+        QuoteDialog.setMinimumSize(new java.awt.Dimension(797, 490));
+        QuoteDialog.setPreferredSize(new java.awt.Dimension(797, 490));
+        QuoteDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel37.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel37.setText("Cotizar");
+        jLabel37.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        QuoteDialog.getContentPane().add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 30, 60, -1));
+
+        jLabel40.setText("Image preview");
+        jLabel40.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jLabel40.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        QuoteDialog.getContentPane().add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 140, 130));
+
+        jLabel41.setText("Description");
+        QuoteDialog.getContentPane().add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, -1, -1));
+
+        jLabel42.setText("Room Name");
+        QuoteDialog.getContentPane().add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, -1, -1));
+
+        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        QuoteDialog.getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, -7, 10, 500));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        QuoteDialog.getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 220, -1));
+
+        jLabel43.setText("Tipo de habitacion");
+        QuoteDialog.getContentPane().add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, -1, -1));
+
+        jLabel44.setText("Duracion de la Estancia");
+        QuoteDialog.getContentPane().add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, -1, -1));
+        QuoteDialog.getContentPane().add(jSlider1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
+
+        jLabel45.setText("0");
+        QuoteDialog.getContentPane().add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 210, -1, -1));
+
+        jLabel46.setText("Fecha de salida");
+        QuoteDialog.getContentPane().add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, -1, -1));
+        QuoteDialog.getContentPane().add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 380, 220, -1));
+
+        jLabel47.setText("Fecha de ingreso");
+        QuoteDialog.getContentPane().add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, -1, -1));
+        QuoteDialog.getContentPane().add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, 220, -1));
+
+        jLabel48.setText("Total de noches");
+        QuoteDialog.getContentPane().add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 90, -1, -1));
+
+        jLabel49.setText("Precio de la habitacion");
+        QuoteDialog.getContentPane().add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, -1, -1));
+
+        jLabel50.setText("Precio final");
+        QuoteDialog.getContentPane().add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 160, -1, -1));
+        QuoteDialog.getContentPane().add(jTextField10, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, 120, -1));
+        QuoteDialog.getContentPane().add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, 120, -1));
+        QuoteDialog.getContentPane().add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 120, -1));
+
+        jButton34.setText("Generar Cotizacion");
+        jButton34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton34ActionPerformed(evt);
+            }
+        });
+        QuoteDialog.getContentPane().add(jButton34, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 280, 140, -1));
+
+        jButton36.setText("Generar Reservacion");
+        QuoteDialog.getContentPane().add(jButton36, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 320, 140, -1));
+
+        jButton38.setText("Cancelar");
+        QuoteDialog.getContentPane().add(jButton38, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 400, 140, -1));
+
+        jButton39.setText("Limpiar");
+        QuoteDialog.getContentPane().add(jButton39, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 360, 140, -1));
+
+        AsignCleaningDialog.setMaximumSize(new java.awt.Dimension(475, 306));
+        AsignCleaningDialog.setMinimumSize(new java.awt.Dimension(475, 306));
+        AsignCleaningDialog.setPreferredSize(new java.awt.Dimension(475, 306));
+        AsignCleaningDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel51.setText("Asignar Limpieza");
+        AsignCleaningDialog.getContentPane().add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, -1, -1));
+
+        jLabel52.setText("Trabajador Disponible");
+        AsignCleaningDialog.getContentPane().add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        AsignCleaningDialog.getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 180, -1));
+
+        jLabel53.setText("Habitacion a limpiar");
+        AsignCleaningDialog.getContentPane().add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, -1, -1));
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        AsignCleaningDialog.getContentPane().add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 90, 190, -1));
+
+        jLabel54.setText("Asignar hora");
+        AsignCleaningDialog.getContentPane().add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+
+        HourComponent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        HourComponent.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
+
+        jSpinner2.setModel(new javax.swing.SpinnerListModel(new String[] {"A.M", "P.M"}));
+        HourComponent.add(jSpinner2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, -1, -1));
+
+        jSpinner3.setModel(new javax.swing.SpinnerNumberModel(0, 0, 12, 1));
+        HourComponent.add(jSpinner3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jLabel55.setText("Minutos");
+        HourComponent.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
+
+        jLabel56.setText("Hora");
+        HourComponent.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+
+        AsignCleaningDialog.getContentPane().add(HourComponent, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 220, 70));
+
+        LoadRoomCount.setMaximumSize(new java.awt.Dimension(466, 303));
+        LoadRoomCount.setMinimumSize(new java.awt.Dimension(466, 303));
+        LoadRoomCount.setPreferredSize(new java.awt.Dimension(466, 303));
+        LoadRoomCount.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel57.setText("Cargar cuenta de habitacion");
+        LoadRoomCount.getContentPane().add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 150, -1));
+
+        jLabel58.setText("Buscar por codigo");
+        LoadRoomCount.getContentPane().add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+        LoadRoomCount.getContentPane().add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 420, -1));
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane6.setViewportView(jTable4);
+
+        LoadRoomCount.getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 420, 120));
+
+        jButton40.setText("Cargar");
+        LoadRoomCount.getContentPane().add(jButton40, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, -1, -1));
+
+        jButton41.setText("Cancelar");
+        LoadRoomCount.getContentPane().add(jButton41, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, -1, -1));
+
+        jLabel59.setText("Info message");
+        LoadRoomCount.getContentPane().add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 420, 20));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -392,7 +592,12 @@ public class Principal_Hotel extends javax.swing.JFrame {
         InformationPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 620, -1, -1));
 
         jButton1.setText("Cotizar");
-        InformationPanel.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 780, -1, -1));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        InformationPanel.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 500, -1, -1));
 
         jLabel3.setText("Descripcion");
         InformationPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 680, -1, -1));
@@ -442,7 +647,12 @@ public class Principal_Hotel extends javax.swing.JFrame {
         CleaningPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 930, -1));
 
         jButton33.setText("Asignar limpieza");
-        CleaningPanel.add(jButton33, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 610, -1, -1));
+        jButton33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton33ActionPerformed(evt);
+            }
+        });
+        CleaningPanel.add(jButton33, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 610, -1, -1));
 
         getContentPane().add(CleaningPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
@@ -750,6 +960,22 @@ public class Principal_Hotel extends javax.swing.JFrame {
         // TODO add your handling code here:
         selectedButton(9);
     }//GEN-LAST:event_AboutB2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:}
+        QuoteDialog.setLocationRelativeTo(null);
+        QuoteDialog.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton34ActionPerformed
+
+    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
+        // TODO add your handling code here:
+        AsignCleaningDialog.setLocationRelativeTo(null);
+        AsignCleaningDialog.setVisible(true);
+    }//GEN-LAST:event_jButton33ActionPerformed
     private void setFontForComponents(Container container, Font font) {
         for (Component component : container.getComponents()) {
             if (component instanceof JButton || component instanceof JLabel) {
@@ -759,6 +985,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
             }
         }
     }
+    
     public void setDefaultGUI(){
         RoomsPanel.setVisible(false);
         InformationPanel.setVisible(false);
@@ -907,16 +1134,19 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JPanel AboutPanel;
     private javax.swing.JButton AdditionalsB;
     private javax.swing.JPanel AdditionalsPanel;
+    private javax.swing.JDialog AsignCleaningDialog;
     private javax.swing.JPanel CleaningPanel;
     private javax.swing.JButton CleanningB;
     private javax.swing.JButton DocumentationB;
     private javax.swing.JButton DocumentationB1;
     private javax.swing.JPanel FacturationPanel;
     private javax.swing.JButton FormB;
+    private javax.swing.JPanel HourComponent;
     private javax.swing.JButton InformationB;
     private javax.swing.JPanel InformationPanel;
     private javax.swing.JPanel LateralLoginPanel;
     private javax.swing.JPanel LateralPanel;
+    private javax.swing.JDialog LoadRoomCount;
     private javax.swing.JButton LoginButon;
     private javax.swing.JPanel LoginPanel;
     private javax.swing.JLabel LogoL;
@@ -925,6 +1155,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel ManualPanel;
     private javax.swing.JPanel PrintRoomsPanel;
+    private javax.swing.JDialog QuoteDialog;
     private javax.swing.JButton RentB;
     private javax.swing.JButton RoomsButton;
     private javax.swing.JPanel RoomsPanel;
@@ -960,14 +1191,25 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JButton jButton31;
     private javax.swing.JButton jButton32;
     private javax.swing.JButton jButton33;
+    private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton35;
+    private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton37;
+    private javax.swing.JButton jButton38;
+    private javax.swing.JButton jButton39;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton40;
+    private javax.swing.JButton jButton41;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -998,10 +1240,31 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1014,15 +1277,26 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
+    private javax.swing.JSpinner jSpinner3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
