@@ -31,7 +31,12 @@ public class Principal_Hotel extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(LogoL, "src/imagenes/HotelSantanderIcon.png");
         
         this.setIconImage(icon.getImage());
-        
+        try {
+            Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/Fuentes/more-sugar.regular.ttf")).deriveFont(14f);
+            setFontForComponents(getContentPane(), customFont);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public void setResolution(){
@@ -648,7 +653,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 jButton37ActionPerformed(evt);
             }
         });
-        LoginPanel.add(jButton37, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 410, -1, -1));
+        LoginPanel.add(jButton37, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 420, -1, -1));
 
         getContentPane().add(LoginPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
@@ -716,21 +721,14 @@ public class Principal_Hotel extends javax.swing.JFrame {
         // TODO add your handling code here:
         selectedButton(1);
     }//GEN-LAST:event_RentBActionPerformed
-    public void setFont(Container container, Font font){
-        // Cargar y aplicar la fuente personalizada
-        /*try {
-            Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/Fuentes/more-sugar.regular.ttf")).deriveFont(14f);
-            setFontForComponents(getContentPane(), customFont);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
+    private void setFontForComponents(Container container, Font font) {
         for (Component component : container.getComponents()) {
             if (component instanceof JButton || component instanceof JLabel) {
                 component.setFont(font);
             } else if (component instanceof Container) {
                 setFontForComponents((Container) component, font);  // Recursión
             }
-        }*/
+        }
     }
     public void setDefaultGUI(){
         RoomsPanel.setVisible(false);
@@ -747,120 +745,86 @@ public class Principal_Hotel extends javax.swing.JFrame {
         LoginPanel.setVisible(true);
     }
     
-    public void selectedButton(int boton){
-        switch(boton){
+    public void selectedButton(int boton) {
+        // Ocultar todos los paneles primero
+        hideAllPanels();
+
+        switch(boton) {
             case 0:
-                //main
+                // main
                 MainPanel.setVisible(true);
                 LateralPanel.setVisible(true);
-                RoomsPanel.setVisible(false);
-                InformationPanel.setVisible(false);
-                FacturationPanel.setVisible(false);
-                CleaningPanel.setVisible(false);
-                AdditionalsPanel.setVisible(false);
-                AboutPanel.setVisible(false);
-                LateralLoginPanel.setVisible(false);
-                LoginPanel.setVisible(false);
                 break;
-                
+
             case 1:
-                //alquilar
-                MainPanel.setVisible(false);
+                // alquilar
+                LateralPanel.setVisible(true);
                 RoomsPanel.setVisible(true);
-                InformationPanel.setVisible(false);
-                FacturationPanel.setVisible(false);
-                CleaningPanel.setVisible(false);
-                AdditionalsPanel.setVisible(false);
-                AboutPanel.setVisible(false);
-                MainPanel.setVisible(false);
                 break;
+
             case 2:
-                //informacion
-                RoomsPanel.setVisible(false);
+                // informacion
+                LateralPanel.setVisible(true);
                 InformationPanel.setVisible(true);
-                FacturationPanel.setVisible(false);
-                CleaningPanel.setVisible(false);
-                AdditionalsPanel.setVisible(false);
-                AboutPanel.setVisible(false);
-                MainPanel.setVisible(false);
                 break;
 
             case 3:
-                //limpieza
-                RoomsPanel.setVisible(false);
-                InformationPanel.setVisible(false);
-                FacturationPanel.setVisible(false);
+                // limpieza
+                LateralPanel.setVisible(true);
                 CleaningPanel.setVisible(true);
-                AdditionalsPanel.setVisible(false);
-                AboutPanel.setVisible(false);
-                MainPanel.setVisible(false);
                 break;
 
             case 4:
-                //facturacion
-                RoomsPanel.setVisible(false);
-                InformationPanel.setVisible(false);
+                // facturacion
+                LateralPanel.setVisible(true);
                 FacturationPanel.setVisible(true);
-                CleaningPanel.setVisible(false);
-                AdditionalsPanel.setVisible(false);
-                AboutPanel.setVisible(false);
-                MainPanel.setVisible(false);
                 break;
 
             case 5:
-                //adicionales
-                RoomsPanel.setVisible(false);
-                InformationPanel.setVisible(false);
-                FacturationPanel.setVisible(false);
+                // adicionales
+                LateralPanel.setVisible(true);
                 AdditionalsPanel.setVisible(true);
-                CleaningPanel.setVisible(false);
-                AboutPanel.setVisible(false);
-                MainPanel.setVisible(false);
                 break;
 
             case 6:
-                //Acerca de
-                RoomsPanel.setVisible(false);
-                InformationPanel.setVisible(false);
-                FacturationPanel.setVisible(false);
-                CleaningPanel.setVisible(false);
-                AdditionalsPanel.setVisible(false);
+                // acerca de
+                LateralPanel.setVisible(true);
                 AboutPanel.setVisible(true);
-                MainPanel.setVisible(false);
                 break;
 
             case 7:
-                //documentacion
-                RoomsPanel.setVisible(false);
-                InformationPanel.setVisible(false);
-                FacturationPanel.setVisible(false);
-                CleaningPanel.setVisible(false);
-                AdditionalsPanel.setVisible(false);
-                AboutPanel.setVisible(false);
+                // documentacion
+                LateralPanel.setVisible(true);
                 MainPanel.setVisible(true);
                 break;
 
             case 8:
-                //cambiar de cuenta
-                RoomsPanel.setVisible(false);
-                InformationPanel.setVisible(false);
-                FacturationPanel.setVisible(false);
-                AdditionalsPanel.setVisible(false);
-                AboutPanel.setVisible(false);
-                MainPanel.setVisible(false);
-                LateralPanel.setVisible(false);
+                // cambiar de cuenta
                 LateralLoginPanel.setVisible(true);
                 LoginPanel.setVisible(true);
                 break;
 
             case 9:
-                
+                // No hace nada
                 break;
 
             default:
-                
+                // No hace nada
                 break;
         }
+    }
+
+    private void hideAllPanels() {
+        MainPanel.setVisible(false);
+        LateralPanel.setVisible(false);
+        RoomsPanel.setVisible(false);
+        InformationPanel.setVisible(false);
+        FacturationPanel.setVisible(false);
+        CleaningPanel.setVisible(false);
+        AdditionalsPanel.setVisible(false);
+        AboutPanel.setVisible(false);
+        LateralLoginPanel.setVisible(false);
+        LoginPanel.setVisible(false);
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
