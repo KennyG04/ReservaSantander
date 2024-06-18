@@ -12,10 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-
+//NOTA: IMPLEMENTAR CAMBIO DE RESOLUCIONES AUTOMATICA, actual 1366,768
 public class Principal_Hotel extends javax.swing.JFrame {
     
     ImageIcon icon = new ImageIcon("src/Imagenes/HotelSantanderIcon.png");
@@ -129,27 +130,13 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         PrintRoomsPanel = new javax.swing.JPanel();
-        jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
         jButton17 = new javax.swing.JButton();
-        jButton18 = new javax.swing.JButton();
-        jButton19 = new javax.swing.JButton();
         jButton20 = new javax.swing.JButton();
-        jButton21 = new javax.swing.JButton();
-        jButton22 = new javax.swing.JButton();
-        jButton23 = new javax.swing.JButton();
-        jButton24 = new javax.swing.JButton();
-        jButton25 = new javax.swing.JButton();
         jScrollBar1 = new javax.swing.JScrollBar();
-        jButton26 = new javax.swing.JButton();
-        jButton27 = new javax.swing.JButton();
-        jButton28 = new javax.swing.JButton();
-        jButton29 = new javax.swing.JButton();
-        jButton30 = new javax.swing.JButton();
         InformationPanel = new javax.swing.JPanel();
         SimpleRoomL = new javax.swing.JLabel();
         SimpleRoomL1 = new javax.swing.JLabel();
@@ -206,7 +193,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jButton32 = new javax.swing.JButton();
         AboutPanel = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
-        jButton35 = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
@@ -239,9 +225,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jTextField12 = new javax.swing.JTextField();
         jButton37 = new javax.swing.JButton();
 
-        QuoteDialog.setMaximumSize(new java.awt.Dimension(797, 490));
         QuoteDialog.setMinimumSize(new java.awt.Dimension(797, 490));
-        QuoteDialog.setPreferredSize(new java.awt.Dimension(797, 490));
         QuoteDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel37.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -314,9 +298,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jButton39.setText("Limpiar");
         QuoteDialog.getContentPane().add(jButton39, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 360, 140, -1));
 
-        AsignCleaningDialog.setMaximumSize(new java.awt.Dimension(475, 306));
         AsignCleaningDialog.setMinimumSize(new java.awt.Dimension(475, 306));
-        AsignCleaningDialog.setPreferredSize(new java.awt.Dimension(475, 306));
         AsignCleaningDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel51.setText("Asignar Limpieza");
@@ -356,9 +338,10 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
         AsignCleaningDialog.getContentPane().add(HourComponent, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 220, 70));
 
-        LoadRoomCount.setMaximumSize(new java.awt.Dimension(466, 303));
+        LoadRoomCount.setTitle("Cargar cuenta de habitacion");
+        LoadRoomCount.setAlwaysOnTop(true);
+        LoadRoomCount.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         LoadRoomCount.setMinimumSize(new java.awt.Dimension(466, 303));
-        LoadRoomCount.setPreferredSize(new java.awt.Dimension(466, 303));
         LoadRoomCount.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel57.setText("Cargar cuenta de habitacion");
@@ -406,8 +389,8 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 AboutBActionPerformed(evt);
             }
         });
-        LateralPanel.add(AboutB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 690, 140, -1));
-        LateralPanel.add(LogoLateralPanelL, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 260, 260));
+        LateralPanel.add(AboutB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 620, 140, -1));
+        LateralPanel.add(LogoLateralPanelL, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 260, 260));
 
         RoomsButton.setBackground(new java.awt.Color(73, 114, 116));
         RoomsButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -417,7 +400,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 RoomsButtonActionPerformed(evt);
             }
         });
-        LateralPanel.add(RoomsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 290, -1));
+        LateralPanel.add(RoomsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 290, -1));
 
         CleanningB.setBackground(new java.awt.Color(73, 114, 116));
         CleanningB.setForeground(new java.awt.Color(255, 255, 255));
@@ -427,7 +410,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 CleanningBActionPerformed(evt);
             }
         });
-        LateralPanel.add(CleanningB, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, 290, -1));
+        LateralPanel.add(CleanningB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 290, -1));
 
         SellsB.setBackground(new java.awt.Color(73, 114, 116));
         SellsB.setForeground(new java.awt.Color(255, 255, 255));
@@ -437,12 +420,12 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 SellsBActionPerformed(evt);
             }
         });
-        LateralPanel.add(SellsB, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 290, -1));
+        LateralPanel.add(SellsB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 290, -1));
 
         FormB.setBackground(new java.awt.Color(73, 114, 116));
         FormB.setForeground(new java.awt.Color(255, 255, 255));
         FormB.setText("Proforma");
-        LateralPanel.add(FormB, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 290, -1));
+        LateralPanel.add(FormB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, 290, -1));
 
         AdditionalsB.setBackground(new java.awt.Color(73, 114, 116));
         AdditionalsB.setForeground(new java.awt.Color(255, 255, 255));
@@ -452,7 +435,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 AdditionalsBActionPerformed(evt);
             }
         });
-        LateralPanel.add(AdditionalsB, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 290, -1));
+        LateralPanel.add(AdditionalsB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 290, -1));
 
         SwitchAccountB.setBackground(new java.awt.Color(73, 114, 116));
         SwitchAccountB.setForeground(new java.awt.Color(255, 255, 255));
@@ -462,7 +445,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 SwitchAccountBActionPerformed(evt);
             }
         });
-        LateralPanel.add(SwitchAccountB, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 620, 290, -1));
+        LateralPanel.add(SwitchAccountB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 550, 290, -1));
 
         DocumentationB.setBackground(new java.awt.Color(73, 114, 116));
         DocumentationB.setForeground(new java.awt.Color(255, 255, 255));
@@ -472,7 +455,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 DocumentationBActionPerformed(evt);
             }
         });
-        LateralPanel.add(DocumentationB, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 690, 120, -1));
+        LateralPanel.add(DocumentationB, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 620, 120, -1));
 
         InformationB.setBackground(new java.awt.Color(73, 114, 116));
         InformationB.setForeground(new java.awt.Color(255, 255, 255));
@@ -482,12 +465,14 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 InformationBActionPerformed(evt);
             }
         });
-        LateralPanel.add(InformationB, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 290, -1));
+        LateralPanel.add(InformationB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 290, -1));
 
         getContentPane().add(LateralPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 1080));
 
+        MainPanel.setMinimumSize(new java.awt.Dimension(1016, 698));
+        MainPanel.setPreferredSize(new java.awt.Dimension(1016, 698));
         MainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        MainPanel.add(LogoL, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, 450, 450));
+        MainPanel.add(LogoL, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 350, 350));
 
         RentB.setBackground(new java.awt.Color(73, 114, 116));
         RentB.setForeground(new java.awt.Color(255, 255, 255));
@@ -497,26 +482,26 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 RentBActionPerformed(evt);
             }
         });
-        MainPanel.add(RentB, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 640, 290, 100));
+        MainPanel.add(RentB, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 410, 290, 100));
 
-        getContentPane().add(MainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
+        getContentPane().add(MainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, -1, -1));
 
+        RoomsPanel.setMaximumSize(new java.awt.Dimension(1016, 698));
+        RoomsPanel.setMinimumSize(new java.awt.Dimension(1016, 698));
+        RoomsPanel.setPreferredSize(new java.awt.Dimension(1016, 698));
         RoomsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel20.setText("Habitaciones");
-        RoomsPanel.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 5, -1, -1));
-        RoomsPanel.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, 760, -1));
+        RoomsPanel.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, -1, -1));
+        RoomsPanel.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 760, -1));
 
         jButton10.setText("Buscar");
-        RoomsPanel.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 60, -1, -1));
+        RoomsPanel.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 70, -1, -1));
 
         jLabel21.setText("Buscar Habitacion");
-        RoomsPanel.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, -1, 20));
+        RoomsPanel.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 20));
 
         PrintRoomsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jButton11.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 30, 240, 220));
 
         jButton12.setText("Tipo\\nDisponibilidad \\nRentada");
         PrintRoomsPanel.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 240, 220));
@@ -527,69 +512,36 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jButton14.setText("Tipo\\nDisponibilidad \\nRentada");
         PrintRoomsPanel.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 30, 240, 220));
 
-        jButton15.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 30, 240, 220));
-
         jButton16.setText("Tipo\\nDisponibilidad \\nRentada");
         PrintRoomsPanel.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, 240, 220));
 
         jButton17.setText("Tipo\\nDisponibilidad \\nRentada");
         PrintRoomsPanel.add(jButton17, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 280, 240, 220));
 
-        jButton18.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton18, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 280, 240, 220));
-
-        jButton19.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton19, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 280, 240, 220));
-
         jButton20.setText("Tipo\\nDisponibilidad \\nRentada");
         PrintRoomsPanel.add(jButton20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 240, 220));
-
-        jButton21.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton21, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 550, 240, 220));
-
-        jButton22.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton22, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 550, 240, 220));
-
-        jButton23.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton23, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 550, 240, 220));
-
-        jButton24.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton24, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 550, 240, 220));
-
-        jButton25.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton25, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 240, 220));
         PrintRoomsPanel.add(jScrollBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1500, -2, 20, 950));
 
-        jButton26.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton26, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 810, 240, 220));
-
-        jButton27.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton27, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 810, 240, 220));
-
-        jButton28.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton28, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 810, 240, 220));
-
-        jButton29.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton29, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 810, 240, 220));
-
-        jButton30.setText("Tipo\\nDisponibilidad \\nRentada");
-        PrintRoomsPanel.add(jButton30, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 810, 240, 220));
-
-        RoomsPanel.add(PrintRoomsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 1520, 950));
+        RoomsPanel.add(PrintRoomsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 880, 530));
 
         getContentPane().add(RoomsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
         InformationPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        InformationPanel.add(SimpleRoomL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 370, 320, 220));
-        InformationPanel.add(SimpleRoomL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 320, 220));
-        InformationPanel.add(SimpleRoomL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 370, 320, 220));
+
+        SimpleRoomL.setText("exampleimage3");
+        InformationPanel.add(SimpleRoomL, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 80, 220, 220));
+
+        SimpleRoomL1.setText("exampleimage1");
+        InformationPanel.add(SimpleRoomL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 220, 220));
+
+        SimpleRoomL2.setText("exampleimage2");
+        InformationPanel.add(SimpleRoomL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 220, 220));
 
         jLabel1.setText("Descripcion");
-        InformationPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 680, -1, -1));
+        InformationPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 380, -1, -1));
 
         jLabel2.setText("Nombre");
-        InformationPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 620, -1, -1));
+        InformationPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 320, -1, -1));
 
         jButton1.setText("Cotizar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -597,39 +549,39 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        InformationPanel.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 500, -1, -1));
+        InformationPanel.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 480, -1, -1));
 
         jLabel3.setText("Descripcion");
-        InformationPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 680, -1, -1));
+        InformationPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, -1, -1));
 
         jLabel4.setText("Nombre");
-        InformationPanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 620, -1, -1));
+        InformationPanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 320, -1, -1));
 
         jButton2.setText("Cotizar");
-        InformationPanel.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 780, -1, -1));
+        InformationPanel.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 480, -1, -1));
 
         jLabel5.setText("Descripcion");
-        InformationPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 670, -1, -1));
+        InformationPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 380, -1, -1));
 
         jLabel6.setText("Nombre");
-        InformationPanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 610, -1, -1));
+        InformationPanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 320, -1, -1));
 
         jButton3.setText("Cotizar");
-        InformationPanel.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 770, -1, -1));
+        InformationPanel.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 480, -1, -1));
 
         getContentPane().add(InformationPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
         CleaningPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setText("Limpieza");
-        CleaningPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 5, -1, -1));
-        CleaningPanel.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, 760, -1));
+        CleaningPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, -1, -1));
+        CleaningPanel.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 760, -1));
 
         jButton4.setText("Buscar");
-        CleaningPanel.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 60, -1, -1));
+        CleaningPanel.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 60, -1, -1));
 
         jLabel8.setText("Busqueda");
-        CleaningPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 60, -1, 20));
+        CleaningPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, 20));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -644,7 +596,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        CleaningPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 930, -1));
+        CleaningPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 960, -1));
 
         jButton33.setText("Asignar limpieza");
         jButton33.addActionListener(new java.awt.event.ActionListener() {
@@ -652,21 +604,21 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 jButton33ActionPerformed(evt);
             }
         });
-        CleaningPanel.add(jButton33, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 610, -1, -1));
+        CleaningPanel.add(jButton33, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 590, -1, -1));
 
         getContentPane().add(CleaningPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
         FacturationPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setText("Factura");
-        FacturationPanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 5, -1, -1));
-        FacturationPanel.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, 760, -1));
+        FacturationPanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, -1, -1));
+        FacturationPanel.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 580, -1));
 
         jButton5.setText("Buscar");
-        FacturationPanel.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 60, -1, -1));
+        FacturationPanel.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 70, -1, -1));
 
         jLabel10.setText("Busqueda");
-        FacturationPanel.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 60, -1, 20));
+        FacturationPanel.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, -1, 20));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -681,65 +633,71 @@ public class Principal_Hotel extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        FacturationPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 340, 930, 310));
+        FacturationPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 950, 310));
 
         jLabel11.setText("Cliente");
-        FacturationPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, -1, -1));
+        FacturationPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
 
         jLabel12.setText("Cedula");
-        FacturationPanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, -1, -1));
+        FacturationPanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, -1, -1));
 
         jLabel13.setText("Telefono");
-        FacturationPanel.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, -1, -1));
+        FacturationPanel.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
 
         jLabel14.setText("Direccion");
-        FacturationPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 110, -1, -1));
+        FacturationPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, -1, -1));
 
         jLabel15.setText("Forma de pago");
-        FacturationPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 150, -1, -1));
-        FacturationPanel.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, 400, 30));
-        FacturationPanel.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 110, 400, 30));
-        FacturationPanel.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, 400, 30));
-        FacturationPanel.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 110, 400, 30));
-        FacturationPanel.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 160, 400, 30));
+        FacturationPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 150, -1, -1));
+        FacturationPanel.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 310, 20));
+        FacturationPanel.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 310, 20));
+        FacturationPanel.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 310, 20));
+
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
+        FacturationPanel.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 120, 310, 20));
+        FacturationPanel.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 150, 310, 20));
 
         jButton6.setText("Añadir");
-        FacturationPanel.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 300, -1, -1));
+        FacturationPanel.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 240, -1, -1));
 
         jButton7.setText("Cancelar");
-        FacturationPanel.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 790, -1, -1));
+        FacturationPanel.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 660, -1, -1));
 
         jButton8.setText("Finalizar");
-        FacturationPanel.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 790, -1, -1));
+        FacturationPanel.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 660, -1, -1));
 
         jButton9.setText("Editar");
-        FacturationPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 300, -1, -1));
+        FacturationPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 240, -1, -1));
 
         jLabel16.setText("Total");
-        FacturationPanel.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 710, -1, -1));
+        FacturationPanel.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 630, -1, -1));
 
         jLabel17.setText("Subtotal");
-        FacturationPanel.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 660, -1, -1));
+        FacturationPanel.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 600, -1, -1));
 
         jLabel18.setText("0,0 $");
-        FacturationPanel.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 710, -1, -1));
+        FacturationPanel.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 630, -1, -1));
 
         jLabel19.setText("0,0 $");
-        FacturationPanel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 660, -1, -1));
+        FacturationPanel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 600, -1, -1));
 
         getContentPane().add(FacturationPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
         AdditionalsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel22.setText("Agregar productos a habitaciones");
-        AdditionalsPanel.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 5, -1, -1));
-        AdditionalsPanel.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, 760, -1));
+        AdditionalsPanel.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, -1, -1));
+        AdditionalsPanel.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 760, -1));
 
         jButton31.setText("Buscar");
-        AdditionalsPanel.add(jButton31, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 60, -1, -1));
+        AdditionalsPanel.add(jButton31, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 80, -1, -1));
 
         jLabel23.setText("Busqueda");
-        AdditionalsPanel.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 60, -1, 20));
+        AdditionalsPanel.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, 20));
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -754,44 +712,41 @@ public class Principal_Hotel extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTable3);
 
-        AdditionalsPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 930, 310));
+        AdditionalsPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 930, 310));
 
         jButton32.setText("Añadir producto");
-        AdditionalsPanel.add(jButton32, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 490, -1, -1));
+        AdditionalsPanel.add(jButton32, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 510, -1, -1));
 
         getContentPane().add(AdditionalsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
         AboutPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel24.setText("Acerca de");
-        AboutPanel.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 5, -1, -1));
-
-        jButton35.setText("Asignar limpieza");
-        AboutPanel.add(jButton35, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 610, -1, -1));
+        AboutPanel.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 50, -1, -1));
 
         jLabel28.setText("Developed by;");
-        AboutPanel.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, -1, -1));
+        AboutPanel.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, -1, -1));
 
         jLabel29.setText("Designed by:");
-        AboutPanel.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 150, -1, -1));
+        AboutPanel.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, -1, -1));
 
         jLabel30.setText("Version");
-        AboutPanel.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 200, -1, -1));
+        AboutPanel.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 250, -1, -1));
 
         jLabel31.setText("Contact & Support ");
-        AboutPanel.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 250, -1, -1));
+        AboutPanel.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 300, -1, -1));
 
         jLabel32.setText("099999999/0222222222");
-        AboutPanel.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 250, -1, -1));
+        AboutPanel.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 300, -1, -1));
 
         jLabel33.setText("Lorem Ipsum");
-        AboutPanel.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 100, -1, -1));
+        AboutPanel.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 150, -1, -1));
 
         jLabel34.setText("Lorem Ipsum");
-        AboutPanel.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 150, -1, -1));
+        AboutPanel.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 200, -1, -1));
 
         jLabel35.setText("1.1.1.1");
-        AboutPanel.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 200, -1, -1));
+        AboutPanel.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 250, -1, -1));
 
         getContentPane().add(AboutPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
@@ -823,10 +778,10 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Manual", jPanel1);
 
-        ManualPanel.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 1570, 940));
+        ManualPanel.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 1020, 560));
 
         jLabel36.setText("Documentacion");
-        ManualPanel.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 50, -1, -1));
+        ManualPanel.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, -1, -1));
 
         getContentPane().add(ManualPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
@@ -864,20 +819,24 @@ public class Principal_Hotel extends javax.swing.JFrame {
         });
         LateralLoginPanel.add(AboutB2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 260, -1));
 
-        getContentPane().add(LateralLoginPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 1080));
+        getContentPane().add(LateralLoginPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 698));
 
+        LoginPanel.setMaximumSize(new java.awt.Dimension(1016, 698));
+        LoginPanel.setMinimumSize(new java.awt.Dimension(1016, 698));
+        LoginPanel.setPreferredSize(new java.awt.Dimension(1016, 698));
+        LoginPanel.setVerifyInputWhenFocusTarget(false);
         LoginPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel26.setText("Iniciar Sesion");
-        LoginPanel.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, -1, -1));
+        LoginPanel.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 200, -1, -1));
 
         jLabel38.setText("CI");
-        LoginPanel.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 310, -1, -1));
+        LoginPanel.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, -1, -1));
 
         jLabel39.setText("Contraseña");
-        LoginPanel.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 360, -1, -1));
-        LoginPanel.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 360, 590, -1));
-        LoginPanel.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 310, 590, -1));
+        LoginPanel.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, -1, -1));
+        LoginPanel.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 310, 590, -1));
+        LoginPanel.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 260, 590, -1));
 
         jButton37.setText("Iniciar sesion");
         jButton37.addActionListener(new java.awt.event.ActionListener() {
@@ -885,9 +844,9 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 jButton37ActionPerformed(evt);
             }
         });
-        LoginPanel.add(jButton37, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 420, -1, -1));
+        LoginPanel.add(jButton37, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 370, -1, -1));
 
-        getContentPane().add(LoginPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
+        getContentPane().add(LoginPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1016, 698));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -910,6 +869,9 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private void SellsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SellsBActionPerformed
         // TODO add your handling code here:
         selectedButton(4);
+        //LoadRoomCount = new JDialog(parent, "Modal Dialog", true);
+        LoadRoomCount.setLocationRelativeTo(null);
+        LoadRoomCount.setVisible(true);
     }//GEN-LAST:event_SellsBActionPerformed
 
     private void AdditionalsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdditionalsBActionPerformed
@@ -948,7 +910,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
     private void LoginButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButonActionPerformed
         // TODO add your handling code here:
-        selectedButton(11);
+        selectedButton(8);
     }//GEN-LAST:event_LoginButonActionPerformed
 
     private void DocumentationB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DocumentationB1ActionPerformed
@@ -976,6 +938,10 @@ public class Principal_Hotel extends javax.swing.JFrame {
         AsignCleaningDialog.setLocationRelativeTo(null);
         AsignCleaningDialog.setVisible(true);
     }//GEN-LAST:event_jButton33ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
     private void setFontForComponents(Container container, Font font) {
         for (Component component : container.getComponents()) {
             if (component instanceof JButton || component instanceof JLabel) {
@@ -1046,6 +1012,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 // acerca de
                 LateralPanel.setVisible(true);
                 AboutPanel.setVisible(true);
+                ManualPanel.setVisible(false);
                 break;
 
             case 7:
@@ -1058,6 +1025,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 // cambiar de cuenta
                 LateralLoginPanel.setVisible(true);
                 LoginPanel.setVisible(true);
+                ManualPanel.setVisible(false);
                 break;
 
             case 9:
@@ -1072,6 +1040,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 LateralLoginPanel.setVisible(true);
                 ManualPanel.setVisible(true);
                 AboutPanel.setVisible(false);
+                LoginPanel.setVisible(false);
                 break;
                 
             case 11:
@@ -1166,33 +1135,18 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JButton SwitchAccountB;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
-    private javax.swing.JButton jButton21;
-    private javax.swing.JButton jButton22;
-    private javax.swing.JButton jButton23;
-    private javax.swing.JButton jButton24;
-    private javax.swing.JButton jButton25;
-    private javax.swing.JButton jButton26;
-    private javax.swing.JButton jButton27;
-    private javax.swing.JButton jButton28;
-    private javax.swing.JButton jButton29;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton31;
     private javax.swing.JButton jButton32;
     private javax.swing.JButton jButton33;
     private javax.swing.JButton jButton34;
-    private javax.swing.JButton jButton35;
     private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton37;
     private javax.swing.JButton jButton38;
