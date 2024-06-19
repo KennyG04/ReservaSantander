@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import org.bson.Document;
 
 //NOTA: IMPLEMENTAR CAMBIO DE RESOLUCIONES AUTOMATICA, actual 1366,768
+//NOTA: Los labels de las habitaciones en el panel RoomsPanel se nombran de la siguiente manera S,M,F+R+T,C,D+N. Donde SMF significa: Simple, Matrimonial, Familiar. Y R significa Room. Y TCD significa: Tipo, Codigo, Disponibilidad, y N es el numero de habitacion
 public class Principal_Hotel extends javax.swing.JFrame {
     
     ImageIcon icon = new ImageIcon("src/Imagenes/HotelSantanderIcon.png");
@@ -177,6 +178,15 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jLabel68 = new javax.swing.JLabel();
         jLabel69 = new javax.swing.JLabel();
         jLabel70 = new javax.swing.JLabel();
+        FRT1 = new javax.swing.JLabel();
+        SRD1 = new javax.swing.JLabel();
+        MRT1 = new javax.swing.JLabel();
+        SRT1 = new javax.swing.JLabel();
+        FRD1 = new javax.swing.JLabel();
+        SRC1 = new javax.swing.JLabel();
+        MRC1 = new javax.swing.JLabel();
+        MRD1 = new javax.swing.JLabel();
+        FRC1 = new javax.swing.JLabel();
         InformationPanel = new javax.swing.JPanel();
         SimpleRoomL = new javax.swing.JLabel();
         SimpleRoomL1 = new javax.swing.JLabel();
@@ -632,10 +642,10 @@ public class Principal_Hotel extends javax.swing.JFrame {
         PrintRoomsPanel.add(jScrollBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1500, -2, 20, 950));
 
         jLabel45.setText("Disponibilidad");
-        PrintRoomsPanel.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 200, -1, -1));
+        PrintRoomsPanel.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, -1, -1));
 
         jLabel60.setText("Tipo");
-        PrintRoomsPanel.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 140, -1, -1));
+        PrintRoomsPanel.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 140, -1, -1));
 
         jLabel61.setText("Codigo");
         PrintRoomsPanel.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 170, -1, -1));
@@ -650,7 +660,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         PrintRoomsPanel.add(jLabel64, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 170, 100));
 
         jLabel65.setText("Tipo");
-        PrintRoomsPanel.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, -1, -1));
+        PrintRoomsPanel.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 140, 30, -1));
 
         jLabel66.setText("Tipo");
         PrintRoomsPanel.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, -1, -1));
@@ -659,13 +669,40 @@ public class Principal_Hotel extends javax.swing.JFrame {
         PrintRoomsPanel.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, -1, -1));
 
         jLabel68.setText("Codigo");
-        PrintRoomsPanel.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, -1, -1));
+        PrintRoomsPanel.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 170, -1, -1));
 
         jLabel69.setText("Disponibilidad");
-        PrintRoomsPanel.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, -1, -1));
+        PrintRoomsPanel.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, -1));
 
         jLabel70.setText("Disponibilidad");
-        PrintRoomsPanel.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, -1, -1));
+        PrintRoomsPanel.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, -1, -1));
+
+        FRT1.setText("Familiar");
+        PrintRoomsPanel.add(FRT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 140, -1, -1));
+
+        SRD1.setText("Disponible");
+        PrintRoomsPanel.add(SRD1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, -1, -1));
+
+        MRT1.setText("Matrimonial");
+        PrintRoomsPanel.add(MRT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, -1, -1));
+
+        SRT1.setText("Simple");
+        PrintRoomsPanel.add(SRT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, -1, -1));
+
+        FRD1.setText("Diponible");
+        PrintRoomsPanel.add(FRD1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, -1, -1));
+
+        SRC1.setText("a123");
+        PrintRoomsPanel.add(SRC1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, -1, -1));
+
+        MRC1.setText("b123");
+        PrintRoomsPanel.add(MRC1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 170, -1, -1));
+
+        MRD1.setText("Disponible");
+        PrintRoomsPanel.add(MRD1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 200, -1, -1));
+
+        FRC1.setText("c123");
+        PrintRoomsPanel.add(FRC1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 170, -1, -1));
 
         RoomsPanel.add(PrintRoomsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 880, 530));
 
@@ -1189,6 +1226,10 @@ public class Principal_Hotel extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
+    
+    public void genericRoomData(){
         String nombre= NameTF.getText();
         String telefono= PhoneTF.getText();
         String cedu= IDTF.getText();
@@ -1197,8 +1238,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         c.guardarFacBD(nombre, telefono, cedu, correo);
         c.crearPDF(RoomCodeTF.getText(), RoomTypeCB.getSelectedItem().toString(),  DaysSliderRoom.getValue(), 0.0,1, BillDescriptionTable);
         JOptionPane.showMessageDialog(this, "Agregado", "Exito", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_jButton8ActionPerformed
-
+    }
     private void DaysStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_DaysStateChanged
         // TODO add your handling code here:
         int actualValue = Days.getValue();
@@ -1220,8 +1260,9 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
-        RoomDataDialog.setVisible(true);
-        RoomDataDialog.setLocationRelativeTo(null);
+        invoqueRoomDataDialog();
+        setSelectedRoomData(SRT1,SRC1);
+        genericRoomData();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void SendDataToBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendDataToBillActionPerformed
@@ -1232,7 +1273,10 @@ public class Principal_Hotel extends javax.swing.JFrame {
         agregarDatosFa agg=new agregarDatosFa();
         agg.agregarDatosTabla(roomCode,roomType, days,BillDescriptionTable, SubtotalTF, TotalTF,IVATF);
     }//GEN-LAST:event_SendDataToBillActionPerformed
-    
+    public void invoqueRoomDataDialog(){
+        RoomDataDialog.setVisible(true);
+        RoomDataDialog.setLocationRelativeTo(null);
+    }
     public void genericTextFieldValidationNumber(JLabel label,JTextField textField,String empyfield,String notNumber){
         String valueOfTextField = textField.getText();
         long number;
@@ -1391,6 +1435,17 @@ public class Principal_Hotel extends javax.swing.JFrame {
         LateralLoginPanel.setVisible(false);
         LoginPanel.setVisible(false);
     }
+    
+    public void setSelectedRoomData(JLabel roomtypelabel,JLabel roomcode){
+        String roomtype = roomtypelabel.getText();
+        if(roomtype.equals("Simple")){
+            RoomTypeCB.setSelectedIndex(0);
+        }else if(roomtype.equals("Matrimonial")){
+            RoomTypeCB.setSelectedIndex(1);
+        }else if(roomtype.equals("Familiar")){
+            RoomTypeCB.setSelectedIndex(2);
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1440,6 +1495,9 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JButton DocumentationB;
     private javax.swing.JButton DocumentationB1;
     private javax.swing.JTextField EmailTF;
+    private javax.swing.JLabel FRC1;
+    private javax.swing.JLabel FRD1;
+    private javax.swing.JLabel FRT1;
     private javax.swing.JPanel FacturationPanel;
     private javax.swing.JLabel FacturationSearchValidation;
     private javax.swing.JButton FormB;
@@ -1460,6 +1518,9 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel LogoL;
     private javax.swing.JLabel LogoLateralPanelL;
     private javax.swing.JLabel LogoLateralPanelL1;
+    private javax.swing.JLabel MRC1;
+    private javax.swing.JLabel MRD1;
+    private javax.swing.JLabel MRT1;
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel ManualPanel;
     private javax.swing.JTextField NameTF;
@@ -1473,6 +1534,9 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> RoomTypeCB;
     private javax.swing.JButton RoomsButton;
     private javax.swing.JPanel RoomsPanel;
+    private javax.swing.JLabel SRC1;
+    private javax.swing.JLabel SRD1;
+    private javax.swing.JLabel SRT1;
     private javax.swing.JTextField SearchTF;
     private javax.swing.JButton SellsB;
     private javax.swing.JButton SendDataToBill;
