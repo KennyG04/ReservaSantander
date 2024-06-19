@@ -9,5 +9,7 @@ package Imagenes;
  * @author Personal
  */
 public class ejemplo {
-    
+    public void xd (){
+        System.out.println("hola edith");
+    }
 }
