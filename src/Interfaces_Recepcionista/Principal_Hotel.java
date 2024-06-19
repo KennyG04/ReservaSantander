@@ -1046,6 +1046,11 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 LoginUserTFCaretUpdate(evt);
             }
         });
+        LoginUserTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoginUserTFActionPerformed(evt);
+            }
+        });
         LoginPanel.add(LoginUserTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 260, 590, -1));
 
         jButton37.setText("Iniciar sesion");
@@ -1271,6 +1276,10 @@ public class Principal_Hotel extends javax.swing.JFrame {
         agregarDatosFa agg=new agregarDatosFa();
         agg.agregarDatosTabla(roomCode,roomType, days,BillDescriptionTable, SubtotalTF, TotalTF,IVATF);
     }//GEN-LAST:event_SendDataToBillActionPerformed
+
+    private void LoginUserTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginUserTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LoginUserTFActionPerformed
     public void invoqueRoomDataDialog(){
         RoomDataDialog.setVisible(true);
         RoomDataDialog.setLocationRelativeTo(null);
@@ -1284,7 +1293,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
             label.setText(notNumber);
         } else {
             try {
-                number = Integer.parseInt(valueOfTextField);
+                number = Long.parseLong(valueOfTextField);
                 label.setText("");
             } catch (NumberFormatException e) {
                 label.setText("¡Error al convertir a número!");

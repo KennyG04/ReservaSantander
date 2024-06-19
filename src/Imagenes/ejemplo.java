@@ -11,5 +11,6 @@ package Imagenes;
 public class ejemplo {
     public void xd (){
         System.out.println("hola edith");
+        System.out.println("err");
     }
 }
