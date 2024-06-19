@@ -1,6 +1,7 @@
 package Interfaces_Recepcionista;
 
 import BD_Facturas.crearPDF;
+import BD_Users.Conection;
 import Clases.agregarDatosFa;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -30,14 +31,7 @@ import org.bson.Document;
 public class Principal_Hotel extends javax.swing.JFrame {
     
     ImageIcon icon = new ImageIcon("src/Imagenes/HotelSantanderIcon.png");
-    private int button = 0;
     int userID;
-    
-    //mongo variables
-    Principal_Hotel principal = new Principal_Hotel();
-    private MongoClient mongoClient;
-    private MongoDatabase database;
-    private MongoCollection<Document> collection;
     
     public Principal_Hotel() {
         initComponents();
@@ -1114,14 +1108,16 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
     private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
         //codigo para validar credenciales
+        Conection conection = new Conection();
+        conection.conexion("usuarios");
         String userID = LoginUserTF.getText();
         String password = LoginPasswordTF.getText();
         String userVal = LoginValidation1.getText();
         String passwordVal = LoginValidation2.getText();
         Document query = new Document("Cedula", userID);
         Document queryD = new Document("CódigoUsuario:", password);
-        long count= collection.countDocuments(query);
-        long countD= collection.countDocuments(queryD);
+        long count =  conection.collection.countDocuments(query);
+        long countD = conection.collection.countDocuments(queryD);
         if(userVal.isEmpty() || passwordVal.isEmpty()){
             if(count<=0){
                 JOptionPane.showMessageDialog(null, "La cedula ingresada no esta registrada", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1201,10 +1197,12 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         //NOTA: Implementar la busqueda por correo y nombre
+        Conection conection = new Conection();
+        conection.conexion("RegistroClientes");
         String userID = SearchTF.getText();
         String val = FacturationSearchValidation.getText();
-         org.bson.Document query = new  org.bson.Document("Cedula", userID);
-        long count= collection.countDocuments(query);
+        org.bson.Document query = new  org.bson.Document("Cedula", userID);
+        long count= conection.collection.countDocuments(query);
         if(userID.length()!=10 ){
             SearchTF.setText("La cedula debe tener 10 digitos!");
             return;
@@ -1213,7 +1211,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "La cedula ingresada no esta registrada", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }else{
-                FindIterable< org.bson.Document> documents = collection.find(query);
+                FindIterable< org.bson.Document> documents = conection.collection.find(query);
                 if (documents.iterator().hasNext()) {
                     for (org.bson.Document document : documents) {
                         NameTF.setText(document.getString("Nombre"));
