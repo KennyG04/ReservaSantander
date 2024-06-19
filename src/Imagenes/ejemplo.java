@@ -12,5 +12,6 @@ public class ejemplo {
     public void xd (){
         System.out.println("hola edith");
         System.out.println("err");
+        System.out.println("hola mundo");
     }
 }
