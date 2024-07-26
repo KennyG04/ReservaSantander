@@ -1,8 +1,11 @@
 package Interfaces_Recepcionista;
 
+import Actors.Habitacion;
 import Actors.Worker;
 import BD_Facturas.crearPDF;
 import BD_Users.Conection;
+import BD_Users.Create;
+import BD_Users.LoadData;
 import Clases.agregarDatosFa;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -20,6 +23,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -40,10 +46,20 @@ public class Principal_Hotel extends javax.swing.JFrame {
     ImageIcon icon = new ImageIcon("src/Imagenes/HotelSantanderIcon.png");
     int userID;
     Worker recepcionista;
+    List <Habitacion> habitaciones;
     public Principal_Hotel() {
         initComponents();        
         setDefaultGUI();
         loadCredentials();
+        Conection Conexion = new Conection();
+        Conexion.conexion("Habitaciones");
+        
+        habitaciones = new ArrayList<>();
+        LoadData cargarHabitaciones = new LoadData();
+        List<Habitacion> listaHabitaciones = cargarHabitaciones.loadData(Conexion);
+        habitaciones.addAll(listaHabitaciones);
+        Create crear = new Create();
+        crear.CreateDefaultRoomsCode(Conexion);
         this.setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setTitle("Hotel Santander");
@@ -58,6 +74,8 @@ public class Principal_Hotel extends javax.swing.JFrame {
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
+        setCodeOnRooms(1);
+        setDataOnRoomPanels(1);
     }
     
     public void setResolution(){
@@ -164,32 +182,68 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jButton10 = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
-        PrintRoomsPanel = new javax.swing.JPanel();
-        jButton12 = new javax.swing.JButton();
+        Room5Panel = new test.PanelRound();
+        Room5Image = new javax.swing.JLabel();
+        RoomType5 = new javax.swing.JLabel();
+        RoomCode5 = new javax.swing.JLabel();
+        RoomAvaliability5 = new javax.swing.JLabel();
         jButton13 = new javax.swing.JButton();
+        Room1Panel = new test.PanelRound();
+        Room1Image = new javax.swing.JLabel();
+        RoomType1 = new javax.swing.JLabel();
+        RoomCode1 = new javax.swing.JLabel();
+        RoomAvaliability1 = new javax.swing.JLabel();
+        jButton16 = new javax.swing.JButton();
+        Room2Panel = new test.PanelRound();
+        Room2Image = new javax.swing.JLabel();
+        RoomType2 = new javax.swing.JLabel();
+        RoomCode2 = new javax.swing.JLabel();
+        RoomAvaliability2 = new javax.swing.JLabel();
+        jButton17 = new javax.swing.JButton();
+        Room3Panel = new test.PanelRound();
+        Room3Image = new javax.swing.JLabel();
+        RoomType3 = new javax.swing.JLabel();
+        RoomCode3 = new javax.swing.JLabel();
+        RoomAvaliability3 = new javax.swing.JLabel();
+        jButton18 = new javax.swing.JButton();
+        Room4Panel = new test.PanelRound();
+        Room4Image = new javax.swing.JLabel();
+        RoomType4 = new javax.swing.JLabel();
+        RoomCode4 = new javax.swing.JLabel();
+        RoomAvaliability4 = new javax.swing.JLabel();
+        jButton19 = new javax.swing.JButton();
+        Room10Panel = new test.PanelRound();
+        Room10Image = new javax.swing.JLabel();
+        RoomType10 = new javax.swing.JLabel();
+        RoomCode10 = new javax.swing.JLabel();
+        RoomAvaliability10 = new javax.swing.JLabel();
         jButton14 = new javax.swing.JButton();
-        jScrollBar1 = new javax.swing.JScrollBar();
-        jLabel45 = new javax.swing.JLabel();
-        jLabel60 = new javax.swing.JLabel();
-        jLabel61 = new javax.swing.JLabel();
-        jLabel62 = new javax.swing.JLabel();
-        jLabel63 = new javax.swing.JLabel();
-        jLabel64 = new javax.swing.JLabel();
-        jLabel65 = new javax.swing.JLabel();
-        jLabel66 = new javax.swing.JLabel();
-        jLabel67 = new javax.swing.JLabel();
-        jLabel68 = new javax.swing.JLabel();
-        jLabel69 = new javax.swing.JLabel();
-        jLabel70 = new javax.swing.JLabel();
-        FRT1 = new javax.swing.JLabel();
-        SRD1 = new javax.swing.JLabel();
-        MRT1 = new javax.swing.JLabel();
-        SRT1 = new javax.swing.JLabel();
-        FRD1 = new javax.swing.JLabel();
-        SRC1 = new javax.swing.JLabel();
-        MRC1 = new javax.swing.JLabel();
-        MRD1 = new javax.swing.JLabel();
-        FRC1 = new javax.swing.JLabel();
+        Room6Panel = new test.PanelRound();
+        Room6Image = new javax.swing.JLabel();
+        RoomType6 = new javax.swing.JLabel();
+        RoomCode6 = new javax.swing.JLabel();
+        RoomAvaliability6 = new javax.swing.JLabel();
+        jButton20 = new javax.swing.JButton();
+        Room7Panel = new test.PanelRound();
+        Room7Image = new javax.swing.JLabel();
+        RoomType7 = new javax.swing.JLabel();
+        RoomCode7 = new javax.swing.JLabel();
+        RoomAvaliability7 = new javax.swing.JLabel();
+        jButton21 = new javax.swing.JButton();
+        Room8Panel = new test.PanelRound();
+        Room8Image = new javax.swing.JLabel();
+        RoomType8 = new javax.swing.JLabel();
+        RoomCode8 = new javax.swing.JLabel();
+        RoomAvaliability8 = new javax.swing.JLabel();
+        jButton22 = new javax.swing.JButton();
+        Room9Panel = new test.PanelRound();
+        Room9Image = new javax.swing.JLabel();
+        RoomType9 = new javax.swing.JLabel();
+        RoomCode9 = new javax.swing.JLabel();
+        RoomAvaliability9 = new javax.swing.JLabel();
+        jButton23 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        RoomsTypeFilter = new javax.swing.JComboBox<>();
         InformationPanel = new javax.swing.JPanel();
         SimpleRoomL = new javax.swing.JLabel();
         SimpleRoomL1 = new javax.swing.JLabel();
@@ -662,105 +716,385 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
         jLabel20.setText("Habitaciones");
         RoomsPanel.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, -1, -1));
-        RoomsPanel.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 760, -1));
+        RoomsPanel.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 610, -1));
 
         jButton10.setText("Buscar");
-        RoomsPanel.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 70, -1, -1));
+        RoomsPanel.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 70, -1, -1));
 
         jLabel21.setText("Buscar Habitacion");
-        RoomsPanel.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 20));
+        RoomsPanel.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 30));
 
-        PrintRoomsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        Room5Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room5Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room5Panel.setRoundBottomLeft(30);
+        Room5Panel.setRoundBottomRight(30);
+        Room5Panel.setRoundTopLeft(30);
+        Room5Panel.setRoundTopRight(30);
+        Room5Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton12.setText("Rentar");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
-            }
-        });
-        PrintRoomsPanel.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 90, 20));
+        Room5Image.setText("Image Reference");
+        Room5Panel.add(Room5Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
 
+        RoomType5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType5.setText("Simple");
+        Room5Panel.add(RoomType5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, 170, -1));
+
+        RoomCode5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode5.setText("a123");
+        RoomCode5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room5Panel.add(RoomCode5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
+
+        RoomAvaliability5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability5.setText("Disponible");
+        Room5Panel.add(RoomAvaliability5, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 200, 150, -1));
+
+        jButton13.setBackground(new java.awt.Color(73, 114, 116));
+        jButton13.setForeground(new java.awt.Color(255, 255, 255));
         jButton13.setText("Rentar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
             }
         });
-        PrintRoomsPanel.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 230, 90, 20));
+        Room5Panel.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
 
+        RoomsPanel.add(Room5Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 150, 180, 250));
+
+        Room1Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room1Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room1Panel.setRoundBottomLeft(30);
+        Room1Panel.setRoundBottomRight(30);
+        Room1Panel.setRoundTopLeft(30);
+        Room1Panel.setRoundTopRight(30);
+        Room1Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Room1Image.setText("Image Reference");
+        Room1Panel.add(Room1Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
+
+        RoomType1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType1.setText("Simple");
+        RoomType1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room1Panel.add(RoomType1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, 170, -1));
+
+        RoomCode1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode1.setText("a123");
+        RoomCode1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room1Panel.add(RoomCode1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
+
+        RoomAvaliability1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability1.setText("Disponible");
+        Room1Panel.add(RoomAvaliability1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 200, 170, -1));
+
+        jButton16.setBackground(new java.awt.Color(73, 114, 116));
+        jButton16.setForeground(new java.awt.Color(255, 255, 255));
+        jButton16.setText("Rentar");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+        Room1Panel.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
+
+        RoomsPanel.add(Room1Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 180, 250));
+
+        Room2Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room2Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room2Panel.setRoundBottomLeft(30);
+        Room2Panel.setRoundBottomRight(30);
+        Room2Panel.setRoundTopLeft(30);
+        Room2Panel.setRoundTopRight(30);
+        Room2Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Room2Image.setText("Image Reference");
+        Room2Panel.add(Room2Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
+
+        RoomType2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType2.setText("Simple");
+        Room2Panel.add(RoomType2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, 170, -1));
+
+        RoomCode2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode2.setText("a123");
+        RoomCode2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room2Panel.add(RoomCode2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
+
+        RoomAvaliability2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability2.setText("Disponible");
+        Room2Panel.add(RoomAvaliability2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 200, 160, -1));
+
+        jButton17.setBackground(new java.awt.Color(73, 114, 116));
+        jButton17.setForeground(new java.awt.Color(255, 255, 255));
+        jButton17.setText("Rentar");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+        Room2Panel.add(jButton17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
+
+        RoomsPanel.add(Room2Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 180, 250));
+
+        Room3Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room3Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room3Panel.setRoundBottomLeft(30);
+        Room3Panel.setRoundBottomRight(30);
+        Room3Panel.setRoundTopLeft(30);
+        Room3Panel.setRoundTopRight(30);
+        Room3Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Room3Image.setText("Image Reference");
+        Room3Panel.add(Room3Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
+
+        RoomType3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType3.setText("Simple");
+        Room3Panel.add(RoomType3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, 170, -1));
+
+        RoomCode3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode3.setText("a123");
+        RoomCode3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room3Panel.add(RoomCode3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
+
+        RoomAvaliability3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability3.setText("Disponible");
+        Room3Panel.add(RoomAvaliability3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 200, 170, -1));
+
+        jButton18.setBackground(new java.awt.Color(73, 114, 116));
+        jButton18.setForeground(new java.awt.Color(255, 255, 255));
+        jButton18.setText("Rentar");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+        Room3Panel.add(jButton18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
+
+        RoomsPanel.add(Room3Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 180, 250));
+
+        Room4Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room4Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room4Panel.setRoundBottomLeft(30);
+        Room4Panel.setRoundBottomRight(30);
+        Room4Panel.setRoundTopLeft(30);
+        Room4Panel.setRoundTopRight(30);
+        Room4Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Room4Image.setText("Image Reference");
+        Room4Panel.add(Room4Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
+
+        RoomType4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType4.setText("Simple");
+        Room4Panel.add(RoomType4, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, 170, -1));
+
+        RoomCode4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode4.setText("a123");
+        RoomCode4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room4Panel.add(RoomCode4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
+
+        RoomAvaliability4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability4.setText("Disponible");
+        Room4Panel.add(RoomAvaliability4, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 200, 150, -1));
+
+        jButton19.setBackground(new java.awt.Color(73, 114, 116));
+        jButton19.setForeground(new java.awt.Color(255, 255, 255));
+        jButton19.setText("Rentar");
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
+        Room4Panel.add(jButton19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
+
+        RoomsPanel.add(Room4Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 150, 180, 250));
+
+        Room10Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room10Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room10Panel.setRoundBottomLeft(30);
+        Room10Panel.setRoundBottomRight(30);
+        Room10Panel.setRoundTopLeft(30);
+        Room10Panel.setRoundTopRight(30);
+        Room10Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Room10Image.setText("Image Reference");
+        Room10Panel.add(Room10Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
+
+        RoomType10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType10.setText("Simple");
+        Room10Panel.add(RoomType10, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 160, 150, -1));
+
+        RoomCode10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode10.setText("a123");
+        RoomCode10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room10Panel.add(RoomCode10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
+
+        RoomAvaliability10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability10.setText("Disponible");
+        Room10Panel.add(RoomAvaliability10, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 200, 150, -1));
+
+        jButton14.setBackground(new java.awt.Color(73, 114, 116));
+        jButton14.setForeground(new java.awt.Color(255, 255, 255));
         jButton14.setText("Rentar");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton14ActionPerformed(evt);
             }
         });
-        PrintRoomsPanel.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 230, 90, 20));
-        PrintRoomsPanel.add(jScrollBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1500, -2, 20, 950));
+        Room10Panel.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
 
-        jLabel45.setText("Disponibilidad");
-        PrintRoomsPanel.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, -1, -1));
+        RoomsPanel.add(Room10Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 420, 180, 250));
 
-        jLabel60.setText("Tipo");
-        PrintRoomsPanel.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 140, -1, -1));
+        Room6Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room6Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room6Panel.setRoundBottomLeft(30);
+        Room6Panel.setRoundBottomRight(30);
+        Room6Panel.setRoundTopLeft(30);
+        Room6Panel.setRoundTopRight(30);
+        Room6Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel61.setText("Codigo");
-        PrintRoomsPanel.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 170, -1, -1));
+        Room6Image.setText("Image Reference");
+        Room6Panel.add(Room6Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
 
-        jLabel62.setText("Image Reference");
-        PrintRoomsPanel.add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 30, 170, 100));
+        RoomType6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType6.setText("Simple");
+        Room6Panel.add(RoomType6, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, 170, -1));
 
-        jLabel63.setText("Image Reference");
-        PrintRoomsPanel.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 170, 100));
+        RoomCode6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode6.setText("a123");
+        RoomCode6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room6Panel.add(RoomCode6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
 
-        jLabel64.setText("Image Reference");
-        PrintRoomsPanel.add(jLabel64, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 170, 100));
+        RoomAvaliability6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability6.setText("Disponible");
+        Room6Panel.add(RoomAvaliability6, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 200, 150, -1));
 
-        jLabel65.setText("Tipo");
-        PrintRoomsPanel.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 140, 30, -1));
+        jButton20.setBackground(new java.awt.Color(73, 114, 116));
+        jButton20.setForeground(new java.awt.Color(255, 255, 255));
+        jButton20.setText("Rentar");
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
+        Room6Panel.add(jButton20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
 
-        jLabel66.setText("Tipo");
-        PrintRoomsPanel.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, -1, -1));
+        RoomsPanel.add(Room6Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 180, 250));
 
-        jLabel67.setText("Codigo");
-        PrintRoomsPanel.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, -1, -1));
+        Room7Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room7Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room7Panel.setRoundBottomLeft(30);
+        Room7Panel.setRoundBottomRight(30);
+        Room7Panel.setRoundTopLeft(30);
+        Room7Panel.setRoundTopRight(30);
+        Room7Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel68.setText("Codigo");
-        PrintRoomsPanel.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 170, -1, -1));
+        Room7Image.setText("Image Reference");
+        Room7Panel.add(Room7Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
 
-        jLabel69.setText("Disponibilidad");
-        PrintRoomsPanel.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, -1));
+        RoomType7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType7.setText("Simple");
+        Room7Panel.add(RoomType7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, 170, -1));
 
-        jLabel70.setText("Disponibilidad");
-        PrintRoomsPanel.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, -1, -1));
+        RoomCode7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode7.setText("a123");
+        RoomCode7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room7Panel.add(RoomCode7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
 
-        FRT1.setText("Familiar");
-        PrintRoomsPanel.add(FRT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 140, -1, -1));
+        RoomAvaliability7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability7.setText("Disponible");
+        Room7Panel.add(RoomAvaliability7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 200, 170, -1));
 
-        SRD1.setText("Disponible");
-        PrintRoomsPanel.add(SRD1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, -1, -1));
+        jButton21.setBackground(new java.awt.Color(73, 114, 116));
+        jButton21.setForeground(new java.awt.Color(255, 255, 255));
+        jButton21.setText("Rentar");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
+        Room7Panel.add(jButton21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
 
-        MRT1.setText("Matrimonial");
-        PrintRoomsPanel.add(MRT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, -1, -1));
+        RoomsPanel.add(Room7Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 420, 180, 250));
 
-        SRT1.setText("Simple");
-        PrintRoomsPanel.add(SRT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, -1, -1));
+        Room8Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room8Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room8Panel.setRoundBottomLeft(30);
+        Room8Panel.setRoundBottomRight(30);
+        Room8Panel.setRoundTopLeft(30);
+        Room8Panel.setRoundTopRight(30);
+        Room8Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        FRD1.setText("Diponible");
-        PrintRoomsPanel.add(FRD1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, -1, -1));
+        Room8Image.setText("Image Reference");
+        Room8Panel.add(Room8Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
 
-        SRC1.setText("a123");
-        PrintRoomsPanel.add(SRC1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, -1, -1));
+        RoomType8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType8.setText("Simple");
+        Room8Panel.add(RoomType8, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, 170, -1));
 
-        MRC1.setText("b123");
-        PrintRoomsPanel.add(MRC1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 170, -1, -1));
+        RoomCode8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode8.setText("a123");
+        RoomCode8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room8Panel.add(RoomCode8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
 
-        MRD1.setText("Disponible");
-        PrintRoomsPanel.add(MRD1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 200, -1, -1));
+        RoomAvaliability8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability8.setText("Disponible");
+        Room8Panel.add(RoomAvaliability8, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 200, 170, -1));
 
-        FRC1.setText("c123");
-        PrintRoomsPanel.add(FRC1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 170, -1, -1));
+        jButton22.setBackground(new java.awt.Color(73, 114, 116));
+        jButton22.setForeground(new java.awt.Color(255, 255, 255));
+        jButton22.setText("Rentar");
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton22ActionPerformed(evt);
+            }
+        });
+        Room8Panel.add(jButton22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
 
-        RoomsPanel.add(PrintRoomsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 880, 530));
+        RoomsPanel.add(Room8Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, 180, 250));
+
+        Room9Panel.setBackground(new java.awt.Color(177, 213, 200));
+        Room9Panel.setForeground(new java.awt.Color(255, 255, 255));
+        Room9Panel.setRoundBottomLeft(30);
+        Room9Panel.setRoundBottomRight(30);
+        Room9Panel.setRoundTopLeft(30);
+        Room9Panel.setRoundTopRight(30);
+        Room9Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Room9Image.setText("Image Reference");
+        Room9Panel.add(Room9Image, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 140));
+
+        RoomType9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomType9.setText("Simple");
+        Room9Panel.add(RoomType9, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, 170, -1));
+
+        RoomCode9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomCode9.setText("a123");
+        RoomCode9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Room9Panel.add(RoomCode9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 160, -1));
+
+        RoomAvaliability9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RoomAvaliability9.setText("Disponible");
+        Room9Panel.add(RoomAvaliability9, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 200, 150, -1));
+
+        jButton23.setBackground(new java.awt.Color(73, 114, 116));
+        jButton23.setForeground(new java.awt.Color(255, 255, 255));
+        jButton23.setText("Rentar");
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
+        Room9Panel.add(jButton23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 20));
+
+        RoomsPanel.add(Room9Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 420, 180, 250));
+
+        jLabel1.setText("Filtrar");
+        RoomsPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 70, 50, 30));
+
+        RoomsTypeFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Simple", "Familiar", "Matrimonial" }));
+        RoomsTypeFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RoomsTypeFilterActionPerformed(evt);
+            }
+        });
+        RoomsPanel.add(RoomsTypeFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 70, 100, -1));
 
         getContentPane().add(RoomsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
@@ -1276,7 +1610,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
         } else {
             // Ocultar la ventana actual en lugar de cerrarla completamente
-            this.setVisible(false);
         }       
     }//GEN-LAST:event_SwitchAccountBActionPerformed
 
@@ -1483,13 +1816,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
         RoomDataDialog.dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
-        invoqueRoomDataDialog();
-        setSelectedRoomData(SRT1,SRC1);
-        genericRoomData();
-    }//GEN-LAST:event_jButton12ActionPerformed
-
     private void SendDataToBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendDataToBillActionPerformed
         // TODO add your handling code here:
         String roomCode= RoomCodeTF.getText();
@@ -1502,20 +1828,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private void LoginUserTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginUserTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_LoginUserTFActionPerformed
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-        invoqueRoomDataDialog();
-        setSelectedRoomData(MRT1,MRC1);
-        genericRoomData();
-    }//GEN-LAST:event_jButton13ActionPerformed
-
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
-        invoqueRoomDataDialog();
-        setSelectedRoomData(FRT1,FRC1);
-        genericRoomData();
-    }//GEN-LAST:event_jButton14ActionPerformed
 
     private void SearchTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTFActionPerformed
         // TODO add your handling code here:
@@ -1565,6 +1877,60 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private void FinalPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalPriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FinalPriceActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void RoomsTypeFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RoomsTypeFilterActionPerformed
+        // TODO add your handling code here:
+        if(RoomsTypeFilter.getSelectedIndex()==0){
+            setCodeOnRooms(1);
+            setDataOnRoomPanels(1);
+        }else if(RoomsTypeFilter.getSelectedIndex()==1){
+            setCodeOnRooms(2);
+            setDataOnRoomPanels(2);
+        }else if(RoomsTypeFilter.getSelectedIndex()==2){
+            setCodeOnRooms(3);
+            setDataOnRoomPanels(3);
+        }
+    }//GEN-LAST:event_RoomsTypeFilterActionPerformed
     
     public void generateJSONTempCredentials(){
         // Crear un objeto JSON para almacenar las credenciales
@@ -1607,6 +1973,117 @@ public class Principal_Hotel extends javax.swing.JFrame {
             }
         }
     }
+    
+    public void setDataOnRoomPanels(int caso){
+        switch(caso){
+            case 1:
+                for (int i = 1; i <= 10; i++) {
+                    try {
+                        Field fieldImage = getClass().getDeclaredField("Room" + i + "Image");
+                        Field fieldType = getClass().getDeclaredField("RoomType" + i);
+                        JLabel roomLabel = (JLabel) fieldImage.get(this);
+                        JLabel roomType = (JLabel) fieldType.get(this);
+                        // Verificar que el JLabel no sea null
+                        if (roomLabel != null) {
+                            rsscalelabel.RSScaleLabel.setScaleLabel(roomLabel, "src/imagenes/Personal.png");
+                            roomType.setText("Simple");
+                        } else {
+                            System.out.println("Error: El JLabel es null para Room" + i);
+                        }
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case 2:
+                for (int i = 1; i <= 10; i++) {
+                    try {
+                        Field fieldImage = getClass().getDeclaredField("Room" + i + "Image");
+                        Field fieldType = getClass().getDeclaredField("RoomType" + i);
+                        JLabel roomLabel = (JLabel) fieldImage.get(this);
+                        JLabel roomType = (JLabel) fieldType.get(this);
+                        // Verificar que el JLabel no sea null
+                        if (roomLabel != null) {
+                            rsscalelabel.RSScaleLabel.setScaleLabel(roomLabel, "src/imagenes/Familiar.png");
+                            roomType.setText("Familiar");
+                        } else {
+                            System.out.println("Error: El JLabel es null para Room" + i);
+                        }
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;             
+            case 3:
+                for (int i = 1; i <= 10; i++) {
+                    try {
+                        Field fieldImage = getClass().getDeclaredField("Room" + i + "Image");
+                        Field fieldType = getClass().getDeclaredField("RoomType" + i);
+                        JLabel roomLabel = (JLabel) fieldImage.get(this);
+                        JLabel roomType = (JLabel) fieldType.get(this);
+                        // Verificar que el JLabel no sea null
+                        if (roomLabel != null) {
+                            rsscalelabel.RSScaleLabel.setScaleLabel(roomLabel, "src/imagenes/Matrimonial.png");
+                            roomType.setText("Matrimonial");
+                        } else {
+                            System.out.println("Error: El JLabel es null para Room" + i);
+                        }
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            default:
+        }       
+    }
+    
+    public void setCodeOnRooms(int caso) {
+        String tipoHabitacion;
+        switch (caso) {
+            case 1:
+                tipoHabitacion = "Personal";
+                break;
+            case 2:
+                tipoHabitacion = "Familiar";
+                break;
+            case 3:
+                tipoHabitacion = "Matrimonial";
+                break;
+            default:
+                System.out.println("Caso no reconocido.");
+                return;
+        }
+
+        int index = 0;
+        for (Habitacion habitacion : habitaciones) {
+            if (habitacion.getTipo().equalsIgnoreCase(tipoHabitacion)) {
+                if (index >= 10) {
+                    break; // No asignar más de 10 habitaciones
+                }
+
+                try {
+                    // Usa reflexión para obtener los campos dinámicamente
+                    Field fieldCode = getClass().getDeclaredField("RoomCode" + (index + 1));
+                    Field fieldAvailability = getClass().getDeclaredField("RoomAvaliability" + (index + 1));
+
+                    // Obtener los JLabels
+                    JLabel roomCode = (JLabel) fieldCode.get(this);
+                    JLabel roomAvailability = (JLabel) fieldAvailability.get(this);
+
+                    // Asigna el código de la habitación al JLabel
+                    roomCode.setText(habitacion.getCodigo());
+
+                    // Asigna la disponibilidad de la habitación al JLabel
+                    roomAvailability.setText(habitacion.getDisponibilidad());
+
+                    index++;
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
     public void setDataOnQuoute(int caso){
         //establecer informacion en los campos
         switch(caso){
@@ -1883,9 +2360,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel FI4;
     private javax.swing.JLabel FI5;
     private javax.swing.JLabel FI6;
-    private javax.swing.JLabel FRC1;
-    private javax.swing.JLabel FRD1;
-    private javax.swing.JLabel FRT1;
     private javax.swing.JPanel FacturationPanel;
     private javax.swing.JLabel FacturationSearchValidation;
     private javax.swing.JLabel FamiliarRoomL;
@@ -1916,9 +2390,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel MI4;
     private javax.swing.JLabel MI5;
     private javax.swing.JLabel MI6;
-    private javax.swing.JLabel MRC1;
-    private javax.swing.JLabel MRD1;
-    private javax.swing.JLabel MRT1;
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel ManualPanel;
     private javax.swing.JLabel MatrimonialRoomL;
@@ -1927,25 +2398,72 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser OutDate;
     private javax.swing.JLabel PersonalRoomL;
     private javax.swing.JTextField PhoneTF;
-    private javax.swing.JPanel PrintRoomsPanel;
     private javax.swing.JDialog QuoteDialog;
     private javax.swing.JButton RentB;
+    private javax.swing.JLabel Room10Image;
+    private test.PanelRound Room10Panel;
+    private javax.swing.JLabel Room1Image;
+    private test.PanelRound Room1Panel;
+    private javax.swing.JLabel Room2Image;
+    private test.PanelRound Room2Panel;
+    private javax.swing.JLabel Room3Image;
+    private test.PanelRound Room3Panel;
+    private javax.swing.JLabel Room4Image;
+    private test.PanelRound Room4Panel;
+    private javax.swing.JLabel Room5Image;
+    private test.PanelRound Room5Panel;
+    private javax.swing.JLabel Room6Image;
+    private test.PanelRound Room6Panel;
+    private javax.swing.JLabel Room7Image;
+    private test.PanelRound Room7Panel;
+    private javax.swing.JLabel Room8Image;
+    private test.PanelRound Room8Panel;
+    private javax.swing.JLabel Room9Image;
+    private test.PanelRound Room9Panel;
+    private javax.swing.JLabel RoomAvaliability1;
+    private javax.swing.JLabel RoomAvaliability10;
+    private javax.swing.JLabel RoomAvaliability2;
+    private javax.swing.JLabel RoomAvaliability3;
+    private javax.swing.JLabel RoomAvaliability4;
+    private javax.swing.JLabel RoomAvaliability5;
+    private javax.swing.JLabel RoomAvaliability6;
+    private javax.swing.JLabel RoomAvaliability7;
+    private javax.swing.JLabel RoomAvaliability8;
+    private javax.swing.JLabel RoomAvaliability9;
+    private javax.swing.JLabel RoomCode1;
+    private javax.swing.JLabel RoomCode10;
+    private javax.swing.JLabel RoomCode2;
+    private javax.swing.JLabel RoomCode3;
+    private javax.swing.JLabel RoomCode4;
+    private javax.swing.JLabel RoomCode5;
+    private javax.swing.JLabel RoomCode6;
+    private javax.swing.JLabel RoomCode7;
+    private javax.swing.JLabel RoomCode8;
+    private javax.swing.JLabel RoomCode9;
     private javax.swing.JTextField RoomCodeTF;
     private javax.swing.JDialog RoomDataDialog;
     private javax.swing.JLabel RoomNameProform;
     private javax.swing.JTextField RoomPrice;
+    private javax.swing.JLabel RoomType1;
+    private javax.swing.JLabel RoomType10;
+    private javax.swing.JLabel RoomType2;
+    private javax.swing.JLabel RoomType3;
+    private javax.swing.JLabel RoomType4;
+    private javax.swing.JLabel RoomType5;
+    private javax.swing.JLabel RoomType6;
+    private javax.swing.JLabel RoomType7;
+    private javax.swing.JLabel RoomType8;
+    private javax.swing.JLabel RoomType9;
     private javax.swing.JComboBox<String> RoomTypeCB;
     private javax.swing.JComboBox<String> RoomTypeProform;
     private javax.swing.JButton RoomsButton;
     private javax.swing.JPanel RoomsPanel;
+    private javax.swing.JComboBox<String> RoomsTypeFilter;
     private javax.swing.JLabel SI1;
     private javax.swing.JLabel SI2;
     private javax.swing.JLabel SI3;
     private javax.swing.JLabel SI4;
     private javax.swing.JLabel SI5;
-    private javax.swing.JLabel SRC1;
-    private javax.swing.JLabel SRD1;
-    private javax.swing.JLabel SRT1;
     private javax.swing.JTextField SearchTF;
     private javax.swing.JButton SellsB;
     private javax.swing.JButton SendDataToBill;
@@ -1960,10 +2478,17 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
+    private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton31;
     private javax.swing.JButton jButton32;
@@ -1985,6 +2510,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox4;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -2016,7 +2542,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
@@ -2031,18 +2556,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel60;
-    private javax.swing.JLabel jLabel61;
-    private javax.swing.JLabel jLabel62;
-    private javax.swing.JLabel jLabel63;
-    private javax.swing.JLabel jLabel64;
-    private javax.swing.JLabel jLabel65;
-    private javax.swing.JLabel jLabel66;
-    private javax.swing.JLabel jLabel67;
-    private javax.swing.JLabel jLabel68;
-    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel73;
@@ -2058,7 +2572,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel92;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
