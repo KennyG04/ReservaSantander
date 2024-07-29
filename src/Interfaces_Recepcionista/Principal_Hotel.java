@@ -53,7 +53,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         loadCredentials();
         Conection Conexion = new Conection();
         Conexion.conexion("Habitaciones");
-        
+        //555555555555555555555555555555555555555555555555555555555555555555
         habitaciones = new ArrayList<>();
         LoadData cargarHabitaciones = new LoadData();
         List<Habitacion> listaHabitaciones = cargarHabitaciones.loadData(Conexion);
