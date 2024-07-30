@@ -1,11 +1,18 @@
 package Actors;
 
+import java.time.LocalDate;
+
 public class Habitacion {
-    String Tipo;
-    String Disponibilidad;
-    int Precio;
-    String Limpieza;
-    String Codigo;
+    private String Tipo;
+    private String Disponibilidad;
+    private int Precio;
+    private String Limpieza;
+    private String Codigo;
+    private int diasRentados; // Número de días rentados
+
+    // Nuevos atributos para las fechas
+    private LocalDate fechaEntrada;
+    private LocalDate fechaSalida;
 
     public Habitacion(String Tipo, String Disponibilidad, int Precio, String Limpieza, String Codigo) {
         this.Tipo = Tipo;
@@ -13,6 +20,38 @@ public class Habitacion {
         this.Precio = Precio;
         this.Limpieza = Limpieza;
         this.Codigo = Codigo;
+    }
+
+    // Getters y setters para los nuevos atributos
+    public LocalDate getFechaEntrada() {
+        return fechaEntrada;
+    }
+
+    public void setFechaEntrada(LocalDate fechaEntrada) {
+        this.fechaEntrada = fechaEntrada;
+        actualizarDiasRentados(); // Actualiza días rentados
+    }
+
+    public LocalDate getFechaSalida() {
+        return fechaSalida;
+    }
+
+    public void setFechaSalida(LocalDate fechaSalida) {
+        this.fechaSalida = fechaSalida;
+        actualizarDiasRentados(); // Actualiza días rentados
+    }
+
+    // Método para calcular los días rentados automáticamente
+    private void actualizarDiasRentados() {
+        if (fechaEntrada != null && fechaSalida != null) {
+            this.diasRentados = (int) java.time.temporal.ChronoUnit.DAYS.between(fechaEntrada, fechaSalida);
+        } else {
+            this.diasRentados = 0; // No se han establecido fechas completas
+        }
+    }
+
+    public int getDiasRentados() {
+        return diasRentados;
     }
 
     public String getTipo() {
@@ -54,15 +93,8 @@ public class Habitacion {
     public void setCodigo(String Codigo) {
         this.Codigo = Codigo;
     }
-    
-    public boolean validateAvailability(){
-        if(Disponibilidad.equals("Disponible")){
-            return true;
-        }else if(Disponibilidad.equals("Ocupado")){
-            return false;
-        }else if(Disponibilidad.equals("Reservado")){
-            return false;
-        }
-        return false;
+
+    public boolean validateAvailability() {
+        return Disponibilidad.equals("Disponible");
     }
 }
