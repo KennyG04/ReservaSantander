@@ -1,6 +1,7 @@
 package Actors;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Habitacion {
     private String Tipo;
@@ -96,5 +97,25 @@ public class Habitacion {
 
     public boolean validateAvailability() {
         return Disponibilidad.equals("Disponible");
+    }
+    
+    @Override
+    public String toString() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        // Formatea las fechas de entrada y salida si no son nulas
+        String fechaEntradaStr = (fechaEntrada != null) ? fechaEntrada.format(dateFormatter) : "No definido";
+        String fechaSalidaStr = (fechaSalida != null) ? fechaSalida.format(dateFormatter) : "No definido";
+
+        return "Habitacion{" +
+                "Tipo='" + Tipo + '\'' +
+                ", Disponibilidad='" + Disponibilidad + '\'' +
+                ", Precio=" + Precio +
+                ", Limpieza='" + Limpieza + '\'' +
+                ", Codigo='" + Codigo + '\'' +
+                ", diasRentados=" + diasRentados +
+                ", fechaEntrada=" + fechaEntradaStr +
+                ", fechaSalida=" + fechaSalidaStr +
+                '}';
     }
 }
