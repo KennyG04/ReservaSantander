@@ -15,6 +15,10 @@ public class Habitacion {
     private LocalDate fechaEntrada;
     private LocalDate fechaSalida;
 
+    public void setDiasRentados(int diasRentados) {
+        this.diasRentados = diasRentados;
+    }
+
     public Habitacion(String Tipo, String Disponibilidad, int Precio, String Limpieza, String Codigo) {
         this.Tipo = Tipo;
         this.Disponibilidad = Disponibilidad;

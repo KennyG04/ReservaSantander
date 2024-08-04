@@ -11,7 +11,6 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.swing.JTable;
@@ -28,6 +27,7 @@ public class crearPDFProforma {
      tel=telefono;
      cedu1=cedu;
      correo1=correo;
+     
        iM.openMongo();  
     MongoDatabase database = iM.getDatabase();
     MongoCollection<org.bson.Document> collection = database.getCollection("Proformas");
@@ -35,13 +35,13 @@ public class crearPDFProforma {
      .append("Cliente", nombre1).append("Teléfono", telefono).append("Cédula", cedu1).append("Correo electrónico", correo1).append("Detalle", "Alquiler habitación");
     collection.insertOne(doc);
    }
-   public void crearPDFProf(String codigo,String tipoHabitacion, int dia,Double precio,int subtotal, JTable factura ){ 
+   public void crearPDFProf(String codigo,String tipoHabitacion, int dia,Double precio,Double subtotal, JTable factura ){ 
        iM.openMongo();  
         MongoDatabase database = iM.getDatabase();       
        DefaultTableModel model = (DefaultTableModel) factura.getModel();
        String pdfPath = "Proforma"+ nombre1 +".pdf";
         Document pdfDocument = new Document();    
-        
+        double suma=0;
         try {
             PdfWriter.getInstance(pdfDocument, new FileOutputStream(pdfPath));
             pdfDocument.open();
@@ -79,8 +79,11 @@ public class crearPDFProforma {
             double total = noches * precioPorNoche;
             
             pdfDocument.add(new Paragraph("|        " + codigoHabitacion + "      |        " + tipoHab + "         |              " + noches + "         |           " + precioPorNoche + "           |     " + total + "  |"));
-            
-        }
+            suma =suma +total;
+        } pdfDocument.add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------"));
+          pdfDocument.add(new Paragraph("                                                                                                           |  Subtotal:     "  + suma));
+          pdfDocument.add(new Paragraph("                                                                                                           |  IVA:          "  + Math.round((suma*0.15) * 100.0) / 100.0));
+          pdfDocument.add(new Paragraph("                                                                                                           |  TOTAL:        "  + Math.round((suma*1.15) * 100.0) / 100.0));
     } catch (DocumentException | IOException e) {
         e.printStackTrace();
     } finally {

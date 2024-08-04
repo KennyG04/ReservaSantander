@@ -6,13 +6,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
-public class Conection {
+public class ConectionUsers {
     MongoClient mongoClient;
     MongoDatabase database;
     public MongoCollection<Document> collection;
-    public void conexion(String coleccion){
+    public void conexionUsuarios(){
         mongoClient = MongoClients.create("mongodb://localhost:27017/");
         database = mongoClient.getDatabase("Reservas_Santander");
-        collection = database.getCollection(coleccion);
+        collection = database.getCollection("RegistroClientes");
     }
 }

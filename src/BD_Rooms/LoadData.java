@@ -1,4 +1,4 @@
-package BD_Users;
+package BD_Rooms;
 
 import Actors.Habitacion;
 import com.mongodb.client.FindIterable;

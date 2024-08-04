@@ -1,12 +1,17 @@
 package Interfaces_Recepcionista;
 
+import Actors.Client;
 import Actors.Habitacion;
 import Actors.Worker;
 import BD_Facturas.crearPDF;
-import BD_Users.Conection;
-import BD_Users.Create;
-import BD_Users.LoadData;
-import BD_Users.Update;
+import BD_Facturas.crearPDFProforma;
+import BD_Rooms.Conection;
+import BD_Rooms.Create;
+import BD_Rooms.LoadData;
+import BD_Rooms.Update;
+import BD_Users.ConectionUsers;
+import BD_Users.LoadClient;
+import BD_Users.Regist;
 import Clases.agregarDatosFa;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -48,9 +53,14 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 //NOTA: IMPLEMENTAR CAMBIO DE RESOLUCIONES AUTOMATICA, actual 1366,768
 //NOTA: Los labels de las habitaciones en el panel RoomsPanel se nombran de la siguiente manera S,M,F+R+T,C,D+N. Donde SMF significa: Simple, Matrimonial, Familiar. Y R significa Room. Y TCD significa: Tipo, Codigo, Disponibilidad, y N es el numero de habitacion
@@ -60,11 +70,48 @@ public class Principal_Hotel extends javax.swing.JFrame {
     int userID;
     Worker recepcionista;
     List <Habitacion> habitaciones;
+    List <Habitacion> habitacionesSeleccionadas;
+    List <Client> clientes;
+    DefaultTableModel modelFactura = new DefaultTableModel();
+    DefaultTableModel ModelProforma = new DefaultTableModel();
+    DefaultTableModel modelAllRoomData = new DefaultTableModel();
+    String valueOfFindFilter;
+    
     public Principal_Hotel() {
         initComponents();        
         setDefaultGUI();
         loadCredentials();
         initializeDateChoosers();
+        //PrintAvailableRoomsOnList();
+        habitacionesSeleccionadas = new ArrayList<>();
+        modelFactura.addColumn("Codigo");
+        modelFactura.addColumn("Tipo de habitacion");
+        modelFactura.addColumn("Tiempo de estadia");
+        modelFactura.addColumn("Precio por noche");
+        modelFactura.addColumn("Precio total");
+        
+        ModelProforma.addColumn("Codigo");
+        ModelProforma.addColumn("Tipo de habitacion");
+        ModelProforma.addColumn("Tiempo de estadia");
+        ModelProforma.addColumn("Precio por noche");
+        ModelProforma.addColumn("Precio total");
+        
+        ProformTable.setModel(ModelProforma);
+        
+        
+        modelAllRoomData.addColumn("Codigo");
+        modelAllRoomData.addColumn("Tipo");
+        modelAllRoomData.addColumn("Disponibilidad");
+        modelAllRoomData.addColumn("Precio");
+        modelAllRoomData.addColumn("Limpieza");
+        modelAllRoomData.addColumn("Fecha de entrada");
+        modelAllRoomData.addColumn("Fecha de salida");
+        modelAllRoomData.addColumn("Dias totales rentados");
+        
+        AvaliableRoomsTable.setModel(modelAllRoomData);
+        
+        BillDescriptionTable.setModel(modelFactura);
+        
         Conection Conexion = new Conection();
         Conexion.conexion("Habitaciones");
         //555555555555555555555555555555555555555555555555555555555555555555
@@ -81,6 +128,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(LogoL, "src/imagenes/HotelSantanderIcon.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(LogoLateralPanelL1, "src/imagenes/HotelSantanderIcon.png");
         un_lockPanel(DataUsersPanel,false);
+        un_lockPanel(DataUsersPanel1,false);
         this.setIconImage(icon.getImage());
         try {
             Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/Fuentes/more-sugar.regular.ttf")).deriveFont(14f);
@@ -135,7 +183,32 @@ public class Principal_Hotel extends javax.swing.JFrame {
         if (DateBegin.getDate() != null) {
             DateEnd.setMinSelectableDate(DateBegin.getDate());
         }
+
+        // Añade un listener para ProformaINDATE
+        ProformaINDATE.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("date".equals(evt.getPropertyName())) {
+                    Date selectedDate = ProformaINDATE.getDate();
+                    if (selectedDate != null) {
+                        // Establece la fecha mínima en ProformaOUTDATE
+                        ProformaOUTDATE.setMinSelectableDate(selectedDate);
+
+                        // Opcional: Si la fecha de salida proforma actual es anterior a la nueva fecha de entrada proforma, ajusta la fecha de salida proforma
+                        if (ProformaOUTDATE.getDate() != null && ProformaOUTDATE.getDate().before(selectedDate)) {
+                            ProformaOUTDATE.setDate(selectedDate);
+                        }
+                    }
+                }
+            }
+        });
+
+        // Inicialmente, establece la fecha mínima en ProformaOUTDATE
+        if (ProformaINDATE.getDate() != null) {
+            ProformaOUTDATE.setMinSelectableDate(ProformaINDATE.getDate());
+        }
     }
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -148,9 +221,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         RoomTypeProform = new javax.swing.JComboBox<>();
         jLabel43 = new javax.swing.JLabel();
-        jLabel44 = new javax.swing.JLabel();
-        Days = new javax.swing.JSlider();
-        SliderDaysInfo = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
@@ -159,12 +229,27 @@ public class Principal_Hotel extends javax.swing.JFrame {
         Nights = new javax.swing.JTextField();
         FinalPrice = new javax.swing.JTextField();
         RoomPrice = new javax.swing.JTextField();
-        jButton34 = new javax.swing.JButton();
         jButton36 = new javax.swing.JButton();
         jButton38 = new javax.swing.JButton();
         jButton39 = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         D = new javax.swing.JTextPane();
+        jLabel61 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        Name = new javax.swing.JTextField();
+        Phone = new javax.swing.JTextField();
+        ID = new javax.swing.JTextField();
+        Mail = new javax.swing.JTextField();
+        jLabel62 = new javax.swing.JLabel();
+        jLabel63 = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
+        jLabel65 = new javax.swing.JLabel();
+        ProformaINDATE = new com.toedter.calendar.JDateChooser();
+        ProformaOUTDATE = new com.toedter.calendar.JDateChooser();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        RoomList = new javax.swing.JList<>();
+        jButton13 = new javax.swing.JButton();
+        jLabel67 = new javax.swing.JLabel();
         AsignCleaningDialog = new javax.swing.JDialog();
         jLabel51 = new javax.swing.JLabel();
         jLabel52 = new javax.swing.JLabel();
@@ -181,9 +266,9 @@ public class Principal_Hotel extends javax.swing.JFrame {
         LoadRoomCount = new javax.swing.JDialog();
         jLabel57 = new javax.swing.JLabel();
         jLabel58 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        searchRoomsField = new javax.swing.JTextField();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        AvaliableRoomsTable = new javax.swing.JTable();
         jButton40 = new javax.swing.JButton();
         jButton41 = new javax.swing.JButton();
         jLabel59 = new javax.swing.JLabel();
@@ -201,6 +286,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         RoomCodeTF2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jButton21 = new javax.swing.JButton();
         RoomInfoDialog = new javax.swing.JDialog();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -213,7 +299,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jButton43 = new javax.swing.JButton();
-        jButton44 = new javax.swing.JButton();
         OutDate = new javax.swing.JTextField();
         Type = new javax.swing.JTextField();
         Code = new javax.swing.JTextField();
@@ -221,14 +306,16 @@ public class Principal_Hotel extends javax.swing.JFrame {
         TotalDays = new javax.swing.JTextField();
         EntryDate = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
+        jButton22 = new javax.swing.JButton();
+        jLabel80 = new javax.swing.JLabel();
+        Price = new javax.swing.JTextField();
         LateralPanel = new javax.swing.JPanel();
         AboutB = new javax.swing.JButton();
         LogoLateralPanelL = new javax.swing.JLabel();
         RoomsButton = new javax.swing.JButton();
         CleanningB = new javax.swing.JButton();
         SellsB = new javax.swing.JButton();
-        FormB = new javax.swing.JButton();
-        AdditionalsB = new javax.swing.JButton();
+        ProformaB = new javax.swing.JButton();
         SwitchAccountB = new javax.swing.JButton();
         DocumentationB = new javax.swing.JButton();
         InformationB = new javax.swing.JButton();
@@ -380,14 +467,34 @@ public class Principal_Hotel extends javax.swing.JFrame {
         IDTF = new javax.swing.JTextField();
         EmailTF = new javax.swing.JTextField();
         jComboBox4 = new javax.swing.JComboBox<>();
-        AdditionalsPanel = new javax.swing.JPanel();
+        ProformPanel = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jButton31 = new javax.swing.JButton();
-        jLabel23 = new javax.swing.JLabel();
+        SearchTF1 = new javax.swing.JTextField();
+        jButton14 = new javax.swing.JButton();
+        jLabel66 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton32 = new javax.swing.JButton();
+        ProformTable = new javax.swing.JTable();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+        FacturationSearchValidation1 = new javax.swing.JLabel();
+        DataUsersPanel1 = new javax.swing.JPanel();
+        jLabel68 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
+        jLabel70 = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        PhoneTF1 = new javax.swing.JTextField();
+        NameTF1 = new javax.swing.JTextField();
+        IDTF1 = new javax.swing.JTextField();
+        EmailTF1 = new javax.swing.JTextField();
+        clientRegistVal = new javax.swing.JLabel();
+        jButton19 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel81 = new javax.swing.JLabel();
+        jLabel82 = new javax.swing.JLabel();
+        TotalTF1 = new javax.swing.JTextField();
+        SubtotalTF1 = new javax.swing.JTextField();
+        IVATF1 = new javax.swing.JTextField();
         AboutPanel = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
@@ -428,13 +535,15 @@ public class Principal_Hotel extends javax.swing.JFrame {
         KeepLogin = new javax.swing.JCheckBox();
 
         QuoteDialog.setAlwaysOnTop(true);
-        QuoteDialog.setMinimumSize(new java.awt.Dimension(797, 490));
+        QuoteDialog.setMaximumSize(new java.awt.Dimension(800, 530));
+        QuoteDialog.setMinimumSize(new java.awt.Dimension(800, 530));
+        QuoteDialog.setPreferredSize(new java.awt.Dimension(800, 530));
         QuoteDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel37.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel37.setText("Cotizar");
+        jLabel37.setText("Proforma");
         jLabel37.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        QuoteDialog.getContentPane().add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 30, 60, -1));
+        QuoteDialog.getContentPane().add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 80, -1));
 
         ImagePreviewProform.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         ImagePreviewProform.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -454,30 +563,16 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 RoomTypeProformActionPerformed(evt);
             }
         });
-        QuoteDialog.getContentPane().add(RoomTypeProform, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 220, -1));
+        QuoteDialog.getContentPane().add(RoomTypeProform, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 280, -1));
 
-        jLabel43.setText("Tipo de habitacion");
-        QuoteDialog.getContentPane().add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, -1, -1));
-
-        jLabel44.setText("Duracion de la Estancia");
-        QuoteDialog.getContentPane().add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, -1, -1));
-
-        Days.setValue(0);
-        Days.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                DaysStateChanged(evt);
-            }
-        });
-        QuoteDialog.getContentPane().add(Days, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
-
-        SliderDaysInfo.setText("0");
-        QuoteDialog.getContentPane().add(SliderDaysInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 210, -1, -1));
+        jLabel43.setText("Datos de la habitacion");
+        QuoteDialog.getContentPane().add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, -1, -1));
 
         jLabel46.setText("Fecha de salida");
-        QuoteDialog.getContentPane().add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, -1, -1));
+        QuoteDialog.getContentPane().add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, -1, -1));
 
         jLabel47.setText("Fecha de ingreso");
-        QuoteDialog.getContentPane().add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, -1, -1));
+        QuoteDialog.getContentPane().add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, -1, -1));
 
         jLabel48.setText("Total de noches");
         QuoteDialog.getContentPane().add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 90, -1, -1));
@@ -507,27 +602,97 @@ public class Principal_Hotel extends javax.swing.JFrame {
         });
         QuoteDialog.getContentPane().add(RoomPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 120, -1));
 
-        jButton34.setText("Generar Cotizacion");
-        jButton34.addActionListener(new java.awt.event.ActionListener() {
+        jButton36.setText("Generar Proforma");
+        jButton36.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton34ActionPerformed(evt);
+                jButton36ActionPerformed(evt);
             }
         });
-        QuoteDialog.getContentPane().add(jButton34, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 280, 140, -1));
-
-        jButton36.setText("Generar Reservacion");
         QuoteDialog.getContentPane().add(jButton36, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 320, 140, -1));
 
         jButton38.setText("Cancelar");
+        jButton38.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton38ActionPerformed(evt);
+            }
+        });
         QuoteDialog.getContentPane().add(jButton38, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 400, 140, -1));
 
         jButton39.setText("Limpiar");
+        jButton39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton39ActionPerformed(evt);
+            }
+        });
         QuoteDialog.getContentPane().add(jButton39, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 360, 140, -1));
 
         D.setEditable(false);
         jScrollPane7.setViewportView(D);
 
         QuoteDialog.getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 130, 120));
+
+        jLabel61.setText("Correo");
+        QuoteDialog.getContentPane().add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 60, 20));
+
+        jLabel44.setText("Datos del cliente");
+        QuoteDialog.getContentPane().add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, -1, -1));
+
+        Name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NameActionPerformed(evt);
+            }
+        });
+        QuoteDialog.getContentPane().add(Name, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 150, -1));
+
+        Phone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PhoneActionPerformed(evt);
+            }
+        });
+        QuoteDialog.getContentPane().add(Phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 150, -1));
+
+        ID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IDActionPerformed(evt);
+            }
+        });
+        QuoteDialog.getContentPane().add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 150, -1));
+
+        Mail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MailActionPerformed(evt);
+            }
+        });
+        QuoteDialog.getContentPane().add(Mail, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 150, -1));
+
+        jLabel62.setText("Habitaciones disponibles");
+        QuoteDialog.getContentPane().add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, -1, 20));
+
+        jLabel63.setText("Nombre");
+        QuoteDialog.getContentPane().add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 60, 20));
+
+        jLabel64.setText("Telefono");
+        QuoteDialog.getContentPane().add(jLabel64, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 60, 20));
+
+        jLabel65.setText("Cedula");
+        QuoteDialog.getContentPane().add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 60, 20));
+        QuoteDialog.getContentPane().add(ProformaINDATE, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 390, 280, -1));
+        QuoteDialog.getContentPane().add(ProformaOUTDATE, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 450, 280, -1));
+
+        RoomList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane8.setViewportView(RoomList);
+
+        QuoteDialog.getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, 280, 60));
+
+        jButton13.setText("jButton13");
+        QuoteDialog.getContentPane().add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, 30, -1));
+
+        jLabel67.setText("Tipo de habitacion");
+        QuoteDialog.getContentPane().add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 240, -1, -1));
 
         AsignCleaningDialog.setMinimumSize(new java.awt.Dimension(475, 306));
         AsignCleaningDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -572,17 +737,28 @@ public class Principal_Hotel extends javax.swing.JFrame {
         LoadRoomCount.setTitle("Cargar cuenta de habitacion");
         LoadRoomCount.setAlwaysOnTop(true);
         LoadRoomCount.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        LoadRoomCount.setMinimumSize(new java.awt.Dimension(466, 303));
+        LoadRoomCount.setMinimumSize(new java.awt.Dimension(602, 315));
         LoadRoomCount.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel57.setText("Cargar cuenta de habitacion");
-        LoadRoomCount.getContentPane().add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 150, -1));
+        jLabel57.setText("Añadir habitacion a la factura");
+        LoadRoomCount.getContentPane().add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 180, -1));
 
         jLabel58.setText("Buscar por codigo");
         LoadRoomCount.getContentPane().add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
-        LoadRoomCount.getContentPane().add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 420, -1));
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        searchRoomsField.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                searchRoomsFieldCaretUpdate(evt);
+            }
+        });
+        searchRoomsField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchRoomsFieldActionPerformed(evt);
+            }
+        });
+        LoadRoomCount.getContentPane().add(searchRoomsField, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 550, -1));
+
+        AvaliableRoomsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -593,18 +769,26 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane6.setViewportView(jTable4);
+        jScrollPane6.setViewportView(AvaliableRoomsTable);
 
-        LoadRoomCount.getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 420, 120));
+        LoadRoomCount.getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 550, 120));
 
-        jButton40.setText("Cargar");
-        LoadRoomCount.getContentPane().add(jButton40, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, -1, -1));
+        jButton40.setText("Añadir");
+        jButton40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton40ActionPerformed(evt);
+            }
+        });
+        LoadRoomCount.getContentPane().add(jButton40, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 250, -1, -1));
 
         jButton41.setText("Cancelar");
-        LoadRoomCount.getContentPane().add(jButton41, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, -1, -1));
-
-        jLabel59.setText("Info message");
-        LoadRoomCount.getContentPane().add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 420, 20));
+        jButton41.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton41ActionPerformed(evt);
+            }
+        });
+        LoadRoomCount.getContentPane().add(jButton41, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 250, -1, -1));
+        LoadRoomCount.getContentPane().add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 550, 20));
 
         RoomDataDialog.setMinimumSize(new java.awt.Dimension(400, 300));
         RoomDataDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -628,7 +812,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 jButton11ActionPerformed(evt);
             }
         });
-        RoomDataDialog.getContentPane().add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
+        RoomDataDialog.getContentPane().add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, -1, -1));
 
         SendDataToBill.setText("Rentar");
         SendDataToBill.addActionListener(new java.awt.event.ActionListener() {
@@ -636,7 +820,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 SendDataToBillActionPerformed(evt);
             }
         });
-        RoomDataDialog.getContentPane().add(SendDataToBill, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, -1, -1));
+        RoomDataDialog.getContentPane().add(SendDataToBill, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, -1));
 
         RoomTypeTF.setEditable(false);
         RoomDataDialog.getContentPane().add(RoomTypeTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 210, -1));
@@ -672,9 +856,17 @@ public class Principal_Hotel extends javax.swing.JFrame {
         RoomDataDialog.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 210, 20));
         RoomDataDialog.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 210, 20));
 
-        RoomInfoDialog.setMaximumSize(new java.awt.Dimension(400, 340));
-        RoomInfoDialog.setMinimumSize(new java.awt.Dimension(400, 340));
-        RoomInfoDialog.setPreferredSize(new java.awt.Dimension(400, 340));
+        jButton21.setText("Proformar");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
+        RoomDataDialog.getContentPane().add(jButton21, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 90, -1));
+
+        RoomInfoDialog.setMaximumSize(new java.awt.Dimension(400, 357));
+        RoomInfoDialog.setMinimumSize(new java.awt.Dimension(400, 357));
+        RoomInfoDialog.setPreferredSize(new java.awt.Dimension(400, 357));
         RoomInfoDialog.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setText("Informacion de la habitacion seleccionada");
@@ -695,34 +887,39 @@ public class Principal_Hotel extends javax.swing.JFrame {
         jLabel41.setText("Fecha de entrada");
         RoomInfoDialog.getContentPane().add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, 20));
 
-        jLabel42.setText("Fecha de salida");
-        RoomInfoDialog.getContentPane().add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, 20));
+        jLabel42.setText("Precio");
+        RoomInfoDialog.getContentPane().add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, 20));
 
         jLabel45.setText("Acciones");
-        RoomInfoDialog.getContentPane().add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, 20));
+        RoomInfoDialog.getContentPane().add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, 20));
 
         jButton12.setForeground(new java.awt.Color(0, 0, 0));
-        jButton12.setText("Facturar");
-        RoomInfoDialog.getContentPane().add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, -1, -1));
+        jButton12.setText("Proformar");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        RoomInfoDialog.getContentPane().add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 250, -1, -1));
 
         jButton15.setForeground(new java.awt.Color(0, 0, 0));
         jButton15.setText("Cancelar estadia");
-        RoomInfoDialog.getContentPane().add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, -1, -1));
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+        RoomInfoDialog.getContentPane().add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 250, -1, -1));
 
         jButton43.setBackground(new java.awt.Color(73, 114, 116));
         jButton43.setForeground(new java.awt.Color(255, 255, 255));
         jButton43.setText("Cerrar");
-        RoomInfoDialog.getContentPane().add(jButton43, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, 80, -1));
-
-        jButton44.setBackground(new java.awt.Color(73, 114, 116));
-        jButton44.setForeground(new java.awt.Color(255, 255, 255));
-        jButton44.setText("Confirmar cambios");
-        jButton44.addActionListener(new java.awt.event.ActionListener() {
+        jButton43.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton44ActionPerformed(evt);
+                jButton43ActionPerformed(evt);
             }
         });
-        RoomInfoDialog.getContentPane().add(jButton44, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, -1, -1));
+        RoomInfoDialog.getContentPane().add(jButton43, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, 80, -1));
 
         OutDate.setEditable(false);
         RoomInfoDialog.getContentPane().add(OutDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, 250, -1));
@@ -741,7 +938,22 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
         EntryDate.setEditable(false);
         RoomInfoDialog.getContentPane().add(EntryDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 250, -1));
-        RoomInfoDialog.getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 400, -1));
+        RoomInfoDialog.getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 400, -1));
+
+        jButton22.setForeground(new java.awt.Color(0, 0, 0));
+        jButton22.setText("Facturar");
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton22ActionPerformed(evt);
+            }
+        });
+        RoomInfoDialog.getContentPane().add(jButton22, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
+
+        jLabel80.setText("Fecha de salida");
+        RoomInfoDialog.getContentPane().add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, 20));
+
+        Price.setEditable(false);
+        RoomInfoDialog.getContentPane().add(Price, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, 250, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -790,20 +1002,15 @@ public class Principal_Hotel extends javax.swing.JFrame {
         });
         LateralPanel.add(SellsB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 290, -1));
 
-        FormB.setBackground(new java.awt.Color(73, 114, 116));
-        FormB.setForeground(new java.awt.Color(255, 255, 255));
-        FormB.setText("Proforma");
-        LateralPanel.add(FormB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, 290, -1));
-
-        AdditionalsB.setBackground(new java.awt.Color(73, 114, 116));
-        AdditionalsB.setForeground(new java.awt.Color(255, 255, 255));
-        AdditionalsB.setText("Productos adicionales");
-        AdditionalsB.addActionListener(new java.awt.event.ActionListener() {
+        ProformaB.setBackground(new java.awt.Color(73, 114, 116));
+        ProformaB.setForeground(new java.awt.Color(255, 255, 255));
+        ProformaB.setText("Proforma");
+        ProformaB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AdditionalsBActionPerformed(evt);
+                ProformaBActionPerformed(evt);
             }
         });
-        LateralPanel.add(AdditionalsB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 290, -1));
+        LateralPanel.add(ProformaB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, 290, -1));
 
         SwitchAccountB.setBackground(new java.awt.Color(73, 114, 116));
         SwitchAccountB.setForeground(new java.awt.Color(255, 255, 255));
@@ -813,7 +1020,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 SwitchAccountBActionPerformed(evt);
             }
         });
-        LateralPanel.add(SwitchAccountB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 550, 290, -1));
+        LateralPanel.add(SwitchAccountB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 290, -1));
 
         DocumentationB.setBackground(new java.awt.Color(73, 114, 116));
         DocumentationB.setForeground(new java.awt.Color(255, 255, 255));
@@ -823,7 +1030,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 DocumentationBActionPerformed(evt);
             }
         });
-        LateralPanel.add(DocumentationB, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 620, 120, -1));
+        LateralPanel.add(DocumentationB, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 620, 140, -1));
 
         InformationB.setBackground(new java.awt.Color(73, 114, 116));
         InformationB.setForeground(new java.awt.Color(255, 255, 255));
@@ -1548,6 +1755,11 @@ public class Principal_Hotel extends javax.swing.JFrame {
         FacturationPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 950, 310));
 
         jButton6.setText("Añadir");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         FacturationPanel.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 240, -1, -1));
 
         jButton7.setText("Cancelar");
@@ -1619,37 +1831,120 @@ public class Principal_Hotel extends javax.swing.JFrame {
 
         getContentPane().add(FacturationPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
-        AdditionalsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        ProformPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel22.setText("Agregar productos a habitaciones");
-        AdditionalsPanel.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, -1, -1));
-        AdditionalsPanel.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 760, -1));
+        jLabel22.setText("Proforma");
+        ProformPanel.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, -1, -1));
 
-        jButton31.setText("Buscar");
-        AdditionalsPanel.add(jButton31, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 80, -1, -1));
+        SearchTF1.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                SearchTF1CaretUpdate(evt);
+            }
+        });
+        SearchTF1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchTF1ActionPerformed(evt);
+            }
+        });
+        ProformPanel.add(SearchTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 580, -1));
 
-        jLabel23.setText("Busqueda");
-        AdditionalsPanel.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, 20));
+        jButton14.setText("Buscar");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+        ProformPanel.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 70, -1, -1));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jLabel66.setText("Busqueda");
+        ProformPanel.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, -1, 20));
+
+        ProformTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Código", "Descripcion", "Cantidad", "Valor"
+                "Código", "Tipo de habitacion", "Tiempo de estadia", "Precio por noche", "Precio total"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(ProformTable);
 
-        AdditionalsPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 930, 310));
+        ProformPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 950, 310));
 
-        jButton32.setText("Añadir producto");
-        AdditionalsPanel.add(jButton32, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 510, -1, -1));
+        jButton17.setText("Añadir");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+        ProformPanel.add(jButton17, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 240, -1, -1));
 
-        getContentPane().add(AdditionalsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
+        jButton18.setText("Quitar");
+        ProformPanel.add(jButton18, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 240, -1, -1));
+        ProformPanel.add(FacturationSearchValidation1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 580, 20));
+
+        DataUsersPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        DataUsersPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel68.setText("Cliente");
+        DataUsersPanel1.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jLabel69.setText("Cedula");
+        DataUsersPanel1.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        jLabel70.setText("Telefono");
+        DataUsersPanel1.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 40, -1, -1));
+
+        jLabel74.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel74.setText("Correo electronico");
+        DataUsersPanel1.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, -1, -1));
+        DataUsersPanel1.add(PhoneTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 40, 280, 20));
+        DataUsersPanel1.add(NameTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 310, 20));
+        DataUsersPanel1.add(IDTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 310, 20));
+
+        EmailTF1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EmailTF1ActionPerformed(evt);
+            }
+        });
+        DataUsersPanel1.add(EmailTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 280, 20));
+        DataUsersPanel1.add(clientRegistVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 350, 20));
+
+        ProformPanel.add(DataUsersPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 840, 80));
+
+        jButton19.setText("Cancelar");
+        ProformPanel.add(jButton19, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 670, -1, -1));
+
+        jButton20.setText("Registrar Proforma");
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
+        ProformPanel.add(jButton20, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 670, -1, -1));
+
+        jLabel23.setText("IVA 15%");
+        ProformPanel.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 600, -1, 20));
+
+        jLabel81.setText("Subtotal");
+        ProformPanel.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 600, -1, 20));
+
+        jLabel82.setText("Total");
+        ProformPanel.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 630, -1, 20));
+
+        TotalTF1.setEditable(false);
+        ProformPanel.add(TotalTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 630, 90, -1));
+
+        SubtotalTF1.setEditable(false);
+        ProformPanel.add(SubtotalTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 600, 90, -1));
+
+        IVATF1.setEditable(false);
+        ProformPanel.add(IVATF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 600, 90, -1));
+
+        getContentPane().add(ProformPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 1570, 1080));
 
         AboutPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1835,14 +2130,53 @@ public class Principal_Hotel extends javax.swing.JFrame {
         // TODO add your handling code here:
         selectedButton(4);
         //LoadRoomCount = new JDialog(parent, "Modal Dialog", true);
-        LoadRoomCount.setLocationRelativeTo(null);
-        LoadRoomCount.setVisible(true);
+        
     }//GEN-LAST:event_SellsBActionPerformed
 
-    private void AdditionalsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdditionalsBActionPerformed
+    private void ProformaBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProformaBActionPerformed
         // TODO add your handling code here:
         selectedButton(5);
-    }//GEN-LAST:event_AdditionalsBActionPerformed
+
+        // Definir y calcular valores en TextFields
+        double subtotal = 0.0;
+        double ivaValue = 0.0;
+
+        // Verificar si hay datos en la tabla
+        if (ProformTable.getRowCount() > 0) {
+            // Iterar sobre cada fila de la tabla para sumar el subtotal
+            for (int i = 0; i < ProformTable.getRowCount(); i++) {
+                // Obtener el valor de la columna 4 (total) de cada fila
+                Object totalObject = ProformTable.getValueAt(i, 4);
+                if (totalObject != null) {
+                    try {
+                        // Convertir el valor a double y agregarlo al subtotal
+                        subtotal += Double.parseDouble(totalObject.toString());
+                    } catch (NumberFormatException e) {
+                        // Manejar el error de conversión si el valor no es un número válido
+                        System.err.println("Error al convertir el valor de la tabla en la fila " + i + ": " + e.getMessage());
+                        SubtotalTF1.setText("Error");
+                        IVATF1.setText("Error");
+                        TotalTF1.setText("Error");
+                        return; // Salir del método si ocurre un error
+                    }
+                }
+            }
+
+            // Calcular el IVA y el total
+            ivaValue = subtotal * 0.15;
+            double totalConIVA = subtotal + ivaValue;
+
+            // Establecer valores en los TextFields con formato
+            SubtotalTF1.setText(String.format("%.2f", subtotal));
+            IVATF1.setText(String.format("%.2f", ivaValue));
+            TotalTF1.setText(String.format("%.2f", totalConIVA)); // Asumiendo que también necesitas mostrar el total
+        } else {
+            // Si no hay filas en la tabla, establecer valores predeterminados
+            SubtotalTF1.setText("0.00");
+            IVATF1.setText("0.00");
+            TotalTF1.setText("0.00");
+        }
+    }//GEN-LAST:event_ProformaBActionPerformed
 
     private void SwitchAccountBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SwitchAccountBActionPerformed
         int seleccion = JOptionPane.showConfirmDialog(
@@ -1969,13 +2303,12 @@ public class Principal_Hotel extends javax.swing.JFrame {
         QuoteDialog.setLocationRelativeTo(null);
         
         QuoteDialog.setVisible(true);
+        
         setDataOnQuoute(1);
+        PrintAvailableRoomsOnList();
+
         System.out.println("boton1 presionado");
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton34ActionPerformed
 
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
         // TODO add your handling code here:
@@ -2000,10 +2333,8 @@ public class Principal_Hotel extends javax.swing.JFrame {
     }//GEN-LAST:event_LoginPasswordTFCaretUpdate
 
     private void SearchTFCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_SearchTFCaretUpdate
-        // TODO add your handling code here:
-        String valueOfFind = SearchTF.getText();
-        genericTextFieldValidationNumber(FacturationSearchValidation,SearchTF,"¡No hay nada para buscar!","¡La cedula ingresada no es un numero","La cedula debe tener 10 digitos");
-        FacturationSearchValidation.setText("Mostrando resultados para "+valueOfFind);
+        String cedulaBuscada = SearchTF.getText();
+        
     }//GEN-LAST:event_SearchTFCaretUpdate
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -2032,7 +2363,8 @@ public class Principal_Hotel extends javax.swing.JFrame {
                     }
                     SearchTF.setText("Mostrando resultados para "+userID);
                 }
-            }}  // TODO add your handling code here:
+            }
+        }  // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -2048,18 +2380,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
         c.guardarFacBD(nombre, telefono, cedu, correo);
         JOptionPane.showMessageDialog(this, "Agregado", "Exito", JOptionPane.INFORMATION_MESSAGE);
     }
-    private void DaysStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_DaysStateChanged
-        // TODO add your handling code here:
-        int actualValue = Days.getValue();       
-        String valueS = actualValue+"";
-        SliderDaysInfo.setText(valueS);
-        Nights.setText(valueS);
-        int roomprice = Integer.parseInt(RoomPrice.getText());
-        int nights = Integer.parseInt(Nights.getText());
-        int finalValue = roomprice*nights;
-        FinalPrice.setText(finalValue+"");
-    }//GEN-LAST:event_DaysStateChanged
-
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         RoomDataDialog.dispose();
@@ -2084,7 +2404,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
             LocalDate fechaSalida = dateEnd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             // Actualizar la habitación con las nuevas fechas y cambiar el estado a 'Ocupado'
-            actualizar.actualizarHabitacion(conection, roomCode, fechaEntrada, fechaSalida);
+            actualizar.actualizarHabitacion(conection, roomCode, fechaEntrada, fechaSalida,"Ocupado");
 
             // Recargar la lista de habitaciones y actualizar la interfaz de usuario
             reloadHabitaciones();
@@ -2095,11 +2415,158 @@ public class Principal_Hotel extends javax.swing.JFrame {
             // Forzar la actualización de la interfaz
             this.revalidate();
             this.repaint();
+
+            // Pasar el objeto a la tabla de facturación.
+            for (Habitacion habitacion : habitaciones) {
+                if (habitacion.getCodigo().equals(roomCode)) {
+                    // Utilizar el método para actualizar la tabla de facturación
+                    updateTableWithRoomData(modelFactura, habitacion);
+                    break;
+                }
+            }
+            updateRoomRentButtons();
+            RoomDataDialog.dispose();
         } else {
             jLabel6.setText("Por favor, seleccione las fechas de entrada");
             jLabel4.setText("Por favor, seleccione las fechas de salida");
-        }       
+        }        
     }//GEN-LAST:event_SendDataToBillActionPerformed
+       
+    public void updateTableWithRoomData(DefaultTableModel tableModel, Habitacion habitacion) {
+        // Obtener los datos necesarios de la habitación
+        String tipo = habitacion.getTipo();
+        int diasRentados = habitacion.getDiasRentados();
+        int precio = habitacion.getPrecio();
+        int total = diasRentados * precio;
+
+        // Calcular el índice
+        String codigo = habitacion.getCodigo();
+
+        // Agregar una nueva fila a la tabla
+        tableModel.addRow(new Object[]{codigo, tipo, diasRentados, precio, total});               
+    }
+
+    public void loadAllRoomOnTable(DefaultTableModel modeloTabla, String filtro) {
+        // Limpiar la tabla antes de cargar los datos
+        modeloTabla.setRowCount(0);
+
+        // Iterar sobre cada habitación en la lista de habitaciones
+        for (Habitacion habitacion : habitaciones) {
+            // Verificar si la habitación cumple con el filtro especificado
+            String disponibilidad = habitacion.getDisponibilidad();
+            boolean mostrarHabitacion = false;
+
+            // Aplicar el filtro basado en el estado de la habitación
+            if ("Ocupado".equalsIgnoreCase(filtro) && "Ocupado".equalsIgnoreCase(disponibilidad)) {
+                mostrarHabitacion = true;
+            } else if ("Reservado".equalsIgnoreCase(filtro) && "Reservado".equalsIgnoreCase(disponibilidad)) {
+                mostrarHabitacion = true;
+            }
+
+            if (mostrarHabitacion && !habitacionesSeleccionadas.contains(habitacion)) {
+                // Obtener los atributos de cada habitación
+                String codigo = habitacion.getCodigo();
+                String tipo = habitacion.getTipo();
+                int precio = habitacion.getPrecio();
+                String limpieza = habitacion.getLimpieza();
+
+                // Obtener las fechas de entrada y salida
+                LocalDate fechaEntrada = habitacion.getFechaEntrada();
+                LocalDate fechaSalida = habitacion.getFechaSalida();
+
+                // Formatear las fechas para mostrarlas como texto
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String fechaEntradaStr = (fechaEntrada != null) ? fechaEntrada.format(formatter) : "No definido";
+                String fechaSalidaStr = (fechaSalida != null) ? fechaSalida.format(formatter) : "No definido";
+
+                // Obtener los días rentados
+                int diasRentados = habitacion.getDiasRentados();
+
+                // Agregar una nueva fila al modelo de la tabla con los datos de la habitación
+                modeloTabla.addRow(new Object[]{
+                    codigo, tipo, disponibilidad, precio, limpieza, fechaEntradaStr, fechaSalidaStr, diasRentados
+                });
+            }
+        }
+    }
+
+    
+    private Habitacion obtenerHabitacionPorCodigo(String codigo) {
+        for (Habitacion habitacion : habitaciones) {
+            if (habitacion.getCodigo().equals(codigo)) {
+                return habitacion;
+            }
+        }
+        return null;
+    }
+    
+    public void PrintAvailableRoomsOnList() {
+        System.out.println("Iniciando impresión de habitaciones disponibles.");
+
+        // Verifica que RoomList esté inicializado
+        if (RoomList == null) {
+            System.out.println("RoomList no está inicializado.");
+            return;
+        }
+
+        // Verifica que la lista de habitaciones no esté vacía
+        if (habitaciones == null || habitaciones.isEmpty()) {
+            System.out.println("La lista de habitaciones está vacía.");
+            return;
+        }
+
+        // Obtener el índice seleccionado y determinar el tipo de habitación
+        int selectedIndex = RoomTypeProform.getSelectedIndex();
+        String tipoHabitacion = "";
+
+        switch (selectedIndex) {
+            case 0:
+                tipoHabitacion = "Personal";
+                break;
+            case 1:
+                tipoHabitacion = "Familiar";
+                break;
+            case 2:
+                tipoHabitacion = "Matrimonial";
+                break;
+            default:
+                System.out.println("Seleccione un tipo de habitación válido.");
+                return;
+        }
+
+        // Modelo para almacenar las habitaciones disponibles
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+
+        // Filtra e imprime las habitaciones disponibles del tipo seleccionado
+        for (Habitacion habitacion : habitaciones) {
+            if (habitacion.getTipo().equals(tipoHabitacion) && habitacion.getDisponibilidad().equals("Libre")) {
+                // Calcula el total más el 15% de IVA
+
+                // Formatea la información de la habitación
+                String infoHabitacion = String.format(
+                    "Código: %s, Tipo: %s, Precio: %d",
+                    habitacion.getCodigo(),
+                    habitacion.getTipo(),
+                    habitacion.getPrecio()
+                );
+
+                // Añade la información al modelo de lista
+                listModel.addElement(infoHabitacion);
+
+                // Imprime la información de la habitación para debugging
+                System.out.println("Añadiendo habitación: " + infoHabitacion);
+            }
+        }
+
+        // Verifica si hay habitaciones que se han añadido
+        if (listModel.isEmpty()) {
+            System.out.println("No hay habitaciones disponibles para el tipo seleccionado.");
+        }
+
+        // Establece el modelo de lista en RoomList
+        RoomList.setModel(listModel);
+        System.out.println("Configuración de RoomList completada.");
+    }
 
     private void LoginUserTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginUserTFActionPerformed
         // TODO add your handling code here:
@@ -2126,10 +2593,13 @@ public class Principal_Hotel extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(RoomTypeProform.getSelectedIndex()==0){
             setDataOnQuoute(1);
+            PrintAvailableRoomsOnList();
         }else if(RoomTypeProform.getSelectedIndex()==1){
             setDataOnQuoute(2);
+            PrintAvailableRoomsOnList();
         }else if(RoomTypeProform.getSelectedIndex()==2){
             setDataOnQuoute(3);
+            PrintAvailableRoomsOnList();
         }
     }//GEN-LAST:event_RoomTypeProformActionPerformed
 
@@ -2293,10 +2763,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DateBeginMouseClicked
 
-    private void jButton44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton44ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton44ActionPerformed
-
     private void searchFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_searchFieldCaretUpdate
         // TODO add your handling code here:
         if(searchField.getText().isEmpty()){
@@ -2310,7 +2776,374 @@ public class Principal_Hotel extends javax.swing.JFrame {
         // TODO add your handling code here:
         ocultarPaneles();
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        loadAllRoomOnTable(modelAllRoomData,"Ocupado");
+        LoadRoomCount.setLocationRelativeTo(null);
+        LoadRoomCount.setVisible(true);
+        valueOfFindFilter = "Facturacion";
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
+        // TODO add your handling code here:
+        LoadRoomCount.dispose();
+    }//GEN-LAST:event_jButton41ActionPerformed
+
+    private void searchRoomsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchRoomsFieldActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_searchRoomsFieldActionPerformed
+
+    private void searchRoomsFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_searchRoomsFieldCaretUpdate
+        // Obtener el valor de búsqueda del campo de texto
+        String valorBusqueda = searchRoomsField.getText().trim();
+
+        // Filtrar las habitaciones basadas en el código
+        filterRoomsByCode(valorBusqueda);
+    }//GEN-LAST:event_searchRoomsFieldCaretUpdate
+
+    private void jButton40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton40ActionPerformed
+        // Obtener el índice de la fila seleccionada
+        int selectedRow = AvaliableRoomsTable.getSelectedRow();
+
+        // Verificar que se haya seleccionado una fila
+        if (selectedRow != -1) {
+            // Obtener los datos de la fila seleccionada
+            String codigo = (String) modelAllRoomData.getValueAt(selectedRow, 0);
+            String tipo = (String) modelAllRoomData.getValueAt(selectedRow, 1);
+            int precioPorNoche = (Integer) modelAllRoomData.getValueAt(selectedRow, 3);
+            int diasRentados = (Integer) modelAllRoomData.getValueAt(selectedRow, 7);
+
+            // Calcular el precio total
+            int precioTotal = precioPorNoche * diasRentados;
+
+            // Determinar el número de ítem (índice) para la nueva fila
+            int numeroDeItem = modelFactura.getRowCount() + 1;
+
+            // Insertar los datos en la tabla de facturación
+            modelFactura.addRow(new Object[]{
+                numeroDeItem,  // Número de ítem
+                tipo,          // Tipo de habitación
+                diasRentados,  // Tiempo de estadía
+                precioPorNoche, // Precio por noche
+                precioTotal    // Precio total
+            });
+
+            // Añadir la habitación seleccionada a la lista temporal
+            Habitacion habitacionSeleccionada = obtenerHabitacionPorCodigo(codigo);
+            if (habitacionSeleccionada != null) {
+                habitacionesSeleccionadas.add(habitacionSeleccionada);
+            }
+
+            // Mensaje opcional de confirmación
+            jLabel59.setText("Habitación añadida a la factura con éxito.");
+
+            // Eliminar la habitación de la tabla de habitaciones disponibles
+            ((DefaultTableModel) AvaliableRoomsTable.getModel()).removeRow(selectedRow);
+
+        } else {
+            // Mensaje en caso de que no se haya seleccionado ninguna fila
+            jLabel59.setText("Por favor, seleccione una habitación para añadir a la factura.");
+        }
+    }//GEN-LAST:event_jButton40ActionPerformed
+
+    private void NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NameActionPerformed
+
+    private void PhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PhoneActionPerformed
+
+    private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IDActionPerformed
+
+    private void MailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MailActionPerformed
+
+    private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
+        // TODO add your handling code here:
+        QuoteDialog.dispose();
+    }//GEN-LAST:event_jButton38ActionPerformed
+
+    private void jButton39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton39ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton39ActionPerformed
+
+    private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
+        // TODO add your handling code here:
+        //variables
+        String nombre = Name.getText();
+        String telefono = Phone.getText();
+        String cedula = ID.getText();
+        String correo = Mail.getText();
+        
+        
+    }//GEN-LAST:event_jButton36ActionPerformed
+
+    private void SearchTF1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_SearchTF1CaretUpdate
+        String cedulaBuscada = SearchTF1.getText().trim();
+
+        // Verifica si el campo de texto de búsqueda está vacío
+        if (cedulaBuscada.isEmpty()) {
+            FacturationSearchValidation1.setText("¡Ingresa una cédula para buscar!");
+            FacturationSearchValidation1.setForeground(new java.awt.Color(255, 0, 0)); // Rojo para indicar error
+            un_lockPanel(DataUsersPanel1, false); // Desbloquea el panel ya que no hay búsqueda
+        } else {
+            ConectionUsers CU = new ConectionUsers();
+            CU.conexionUsuarios(); // Asegúrate de que esto inicialice correctamente la conexión
+            LoadClient LC = new LoadClient();
+
+            // Carga el cliente registrado
+            LC.cargarClienteRegistrado(CU, cedulaBuscada, NameTF1, IDTF1, PhoneTF1, EmailTF1, FacturationSearchValidation1);
+
+            // Comprueba si el cliente fue encontrado o no
+            if (FacturationSearchValidation1.getText().equals("Cliente no encontrado.")) {
+                // Si el cliente no es encontrado, desbloquea el panel para permitir el registro
+                un_lockPanel(DataUsersPanel1, true);
+            } else {
+                // Si el cliente es encontrado, bloquea el panel para impedir modificaciones
+                un_lockPanel(DataUsersPanel1, false);
+            }
+        }
+    }//GEN-LAST:event_SearchTF1CaretUpdate
+
+    private void SearchTF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTF1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchTF1ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        // TODO add your handling code here:
+        loadAllRoomOnTable(modelAllRoomData,"Reservado");
+        LoadRoomCount.setLocationRelativeTo(null);
+        LoadRoomCount.setVisible(true);
+        valueOfFindFilter = "Proforma";
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void EmailTF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailTF1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EmailTF1ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        boolean hasError = false; // Inicialmente no hay errores
+
+        // Obtener los datos del cliente de los campos de texto
+        String nombre = NameTF1.getText();
+        String cedulaStr = IDTF1.getText();
+        String correo = EmailTF1.getText();
+        String telefono = PhoneTF1.getText();
+        int cuentaDeLaTabla = ProformTable.getRowCount();
+
+        // Validar si los campos del cliente están vacíos
+        if (nombre.isEmpty() || cedulaStr.isEmpty() || correo.isEmpty() || telefono.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Los datos del cliente están vacíos, busca al cliente o ingresa sus datos para registrarlo", "Cliente vacío", JOptionPane.WARNING_MESSAGE);
+            hasError = true;
+        } else {
+            // Validar la cédula
+            Long cedula = null;
+            try {
+                cedula = Long.parseLong(cedulaStr);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "La cédula debe ser un número válido.", "Error de cédula", JOptionPane.ERROR_MESSAGE);
+                hasError = true;
+            }
+
+            // Validar el correo electrónico
+            try {
+                Client cliente = new Client(nombre, cedula, telefono, correo); // Intentar crear el cliente
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error de correo", JOptionPane.ERROR_MESSAGE);
+                hasError = true;
+            }
+        }
+
+        // Validar si hay datos en la tabla
+        if (cuentaDeLaTabla <= 0) {
+            JOptionPane.showMessageDialog(this, "No hay datos que agregar a la factura", "Sin datos que proformar", JOptionPane.WARNING_MESSAGE);
+            hasError = true;
+        }
+
+        // Si no hay errores, proceder con el registro
+        if (!hasError) {
+            // Crear y guardar el cliente en la base de datos
+            ConectionUsers conexionU = new ConectionUsers();
+            conexionU.conexionUsuarios();
+            Regist regist = new Regist();
+            regist.registrarCliente(conexionU, nombre, cedulaStr, telefono, correo, clientRegistVal); // Registrar al cliente
+
+            // Guardar datos en el objeto y crear PDF
+            crearPDFProforma c = new crearPDFProforma();
+            c.guardarProfBD(nombre, telefono, cedulaStr, correo);
+
+            // Obtener y convertir el valor del subtotal correctamente
+            String subtotalStr = SubtotalTF1.getText().replace(",", "."); // Reemplazar coma por punto
+            double subtotal = Double.parseDouble(subtotalStr); // Convertir subtotal
+
+            // Obtener y convertir el valor total correctamente
+            String totalStr = TotalTF1.getText().replace(",", "."); // Reemplazar coma por punto
+            double total = Double.parseDouble(totalStr); // Convertir total
+
+            // Iterar sobre las filas de la tabla
+            for (int i = 0; i < ProformTable.getRowCount(); i++) {
+                String codigo = (String) ProformTable.getValueAt(i, 0);
+                String tipo = (String) ProformTable.getValueAt(i, 1);
+                int tiempoEstadia = (int) ProformTable.getValueAt(i, 2);
+
+                // Convertir el precio por noche correctamente
+                double precioPorNoche = Double.parseDouble(ProformTable.getValueAt(i, 3).toString().replace(",", "."));
+                // Convertir el precio final correctamente
+                double precioFinal = Double.parseDouble(ProformTable.getValueAt(i, 4).toString().replace(",", "."));
+
+                // Crear PDF usando los valores correctos
+                c.crearPDFProf(codigo, tipo, tiempoEstadia, precioPorNoche, total, ProformTable);
+            }
+
+            JOptionPane.showMessageDialog(this, "Agregado", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            // Restablecer la habitación a default y cambiar la limpieza
+            Conection conection = new Conection();
+            conection.conexion("Habitaciones");
+            Update updater = new Update();
+
+            // Iterar sobre las habitaciones y restablecer cada una
+            for (int i = 0; i < ProformTable.getRowCount(); i++) {
+                String codigoHabitacion = (String) ProformTable.getValueAt(i, 0);
+                updater.restablecerHabitacion(conection, codigoHabitacion);
+            }
+
+            // Recargar las habitaciones y actualizar la interfaz
+            reloadHabitaciones();
+            setCodeOnRooms(RoomsTypeFilter.getSelectedIndex() + 1); // Usar el tipo de habitación seleccionado
+            setDataOnRoomPanels(RoomsTypeFilter.getSelectedIndex() + 1); // Usar el tipo de habitación seleccionado
+            setColorRoomPanels();
+            updateRoomRentButtons();
+        }
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        // Conectar a la base de datos
+        Conection conection = new Conection();
+        conection.conexion("Habitaciones");
+        Update actualizar = new Update();
+
+        // Obtener el código de la habitación
+        String roomCode = RoomCodeTF2.getText();
+
+        // Obtener las fechas desde JDateChooser
+        Date dateBegin = DateBegin.getDate();
+        Date dateEnd = DateEnd.getDate();
+
+        // Verificar que las fechas no sean nulas
+        if (dateBegin != null && dateEnd != null) {
+            // Convertir java.util.Date a java.time.LocalDate
+            LocalDate fechaEntrada = dateBegin.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate fechaSalida = dateEnd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Actualizar la habitación con las nuevas fechas y cambiar el estado a 'Reservado'
+            actualizar.actualizarHabitacion(conection, roomCode, fechaEntrada, fechaSalida, "Reservado");
+
+            // Recargar la lista de habitaciones y actualizar la interfaz de usuario
+            reloadHabitaciones();
+            setCodeOnRooms(RoomsTypeFilter.getSelectedIndex() + 1); // Usar el tipo de habitación seleccionado
+            setDataOnRoomPanels(RoomsTypeFilter.getSelectedIndex() + 1); // Usar el tipo de habitación seleccionado
+            setColorRoomPanels();
+
+            // Forzar la actualización de la interfaz
+            this.revalidate();
+            this.repaint();
+
+            // Pasar el objeto a la tabla de modelo 'modelProforma'.
+            for (Habitacion habitacion : habitaciones) {
+                if (habitacion.getCodigo().equals(roomCode)) {
+                    // Utilizar el método para actualizar la tabla de proforma
+                    updateTableWithRoomData(ModelProforma, habitacion);
+                    break;
+                }
+            }
+            updateRoomRentButtons();
+        } else {
+            jLabel6.setText("Por favor, seleccione las fechas de entrada");
+            jLabel4.setText("Por favor, seleccione las fechas de salida");
+        }
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // Mostrar un diálogo de confirmación al usuario
+        String codigoHabitacion = Code.getText();
+        int respuesta = JOptionPane.showConfirmDialog(
+            this, // Componente padre (puede ser null si no se necesita)
+            "¿Desea cancelar todos los estados de la habitación?", // Mensaje
+            "Confirmar Cancelación", // Título del diálogo
+            JOptionPane.YES_NO_OPTION, // Tipo de opciones
+            JOptionPane.QUESTION_MESSAGE // Tipo de mensaje
+        );
+
+        // Comprobar la respuesta del usuario
+        if (respuesta == JOptionPane.YES_OPTION) {
+            // Crear una instancia de la clase Update
+            Conection conexion = new Conection();
+            conexion.conexion("Habitaciones");// Asegúrate de que la conexión esté abierta
+            Update updater = new Update();
+
+            // Restablecer la habitación
+            updater.restablecerHabitacion(conexion, codigoHabitacion);
+            reloadHabitaciones();
+            setCodeOnRooms(RoomsTypeFilter.getSelectedIndex() + 1); // Usar el tipo de habitación seleccionado
+            setDataOnRoomPanels(RoomsTypeFilter.getSelectedIndex() + 1); // Usar el tipo de habitación seleccionado
+            setColorRoomPanels();
+            updateRoomRentButtons();
+            
+        } else {
+            // El usuario ha elegido "No" o ha cerrado el diálogo
+            JOptionPane.showMessageDialog(this, "Cancelación de estados de habitación abortada.", "Acción Cancelada", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        SendDataToTable(ModelProforma,"proforma");
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        // TODO add your handling code here:
+        SendDataToTable(modelFactura,"factura");
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton43ActionPerformed
+        // TODO add your handling code here:
+        RoomInfoDialog.dispose();
+    }//GEN-LAST:event_jButton43ActionPerformed
+    public void SendDataToTable(DefaultTableModel model,String facturaOProforma){
+        
+        String codigo = Code.getText();
+        String tipo = Type.getText();
+        String tiempo = TotalDays.getText();
+        String precio = Price.getText();
+        int tiempoInt = Integer.parseInt(tiempo);
+        int precioDouble = Integer.parseInt(precio);
+        int total = tiempoInt * precioDouble;
+        if(Avaliability.getText().equals("Libre")){
+            JOptionPane.showMessageDialog(this,"La habitacion no tiene datos de facturacion, por favor selecciona una diferente","Habitacion no rentable",JOptionPane.WARNING_MESSAGE);
+        }else{
+            model.addRow(new Object[]{codigo, tipo, tiempoInt, precioDouble,total});
+            JOptionPane.showMessageDialog(this, "La habitacion ha sido añadida a la "+facturaOProforma,"Habitacion añadida",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     
+    private void filterRoomsByCode(String valorBusqueda) {
+        //limpiar el modelo de la tabla de las habitaciones buscadas
+        modelAllRoomData.setRowCount(0);
+    }
+
+  
     public void generateJSONTempCredentials(){
         // Crear un objeto JSON para almacenar las credenciales
         JSONObject credentials = new JSONObject();
@@ -2580,6 +3413,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
                 Type.setText(habitacion.getTipo());
                 Code.setText(habitacion.getCodigo());
                 Avaliability.setText(habitacion.getDisponibilidad());
+                Price.setText(habitacion.getPrecio()+"");
 
                 // Usa el método getDiasRentados() para obtener el número de días rentados
                 TotalDays.setText(String.valueOf(habitacion.getDiasRentados()));
@@ -2691,7 +3525,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         RoomsPanel.setVisible(false);
         InformationPanel.setVisible(false);
         FacturationPanel.setVisible(false);
-        AdditionalsPanel.setVisible(false);
+        ProformPanel.setVisible(false);
         CleaningPanel.setVisible(false);
         AboutPanel.setVisible(false);
         MainPanel.setVisible(false);
@@ -2740,7 +3574,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
             case 5:
                 // adicionales
                 LateralPanel.setVisible(true);
-                AdditionalsPanel.setVisible(true);
+                ProformPanel.setVisible(true);
                 break;
 
             case 6:
@@ -2795,7 +3629,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
         InformationPanel.setVisible(false);
         FacturationPanel.setVisible(false);
         CleaningPanel.setVisible(false);
-        AdditionalsPanel.setVisible(false);
+        ProformPanel.setVisible(false);
         AboutPanel.setVisible(false);
         LateralLoginPanel.setVisible(false);
         LoginPanel.setVisible(false);
@@ -2912,8 +3746,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
             for (Component component : components) {
                 component.setEnabled(false);
             }
-        }
-        
+        }       
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -2951,22 +3784,22 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JButton AboutB;
     private javax.swing.JButton AboutB2;
     private javax.swing.JPanel AboutPanel;
-    private javax.swing.JButton AdditionalsB;
-    private javax.swing.JPanel AdditionalsPanel;
     private javax.swing.JDialog AsignCleaningDialog;
     private javax.swing.JTextField Avaliability;
+    private javax.swing.JTable AvaliableRoomsTable;
     private javax.swing.JTable BillDescriptionTable;
     private javax.swing.JPanel CleaningPanel;
     private javax.swing.JButton CleanningB;
     private javax.swing.JTextField Code;
     private javax.swing.JTextPane D;
     private javax.swing.JPanel DataUsersPanel;
+    private javax.swing.JPanel DataUsersPanel1;
     private com.toedter.calendar.JDateChooser DateBegin;
     private com.toedter.calendar.JDateChooser DateEnd;
-    private javax.swing.JSlider Days;
     private javax.swing.JButton DocumentationB;
     private javax.swing.JButton DocumentationB1;
     private javax.swing.JTextField EmailTF;
+    private javax.swing.JTextField EmailTF1;
     private javax.swing.JTextField EntryDate;
     private javax.swing.JLabel FI1;
     private javax.swing.JLabel FI2;
@@ -2976,12 +3809,15 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel FI6;
     private javax.swing.JPanel FacturationPanel;
     private javax.swing.JLabel FacturationSearchValidation;
+    private javax.swing.JLabel FacturationSearchValidation1;
     private javax.swing.JLabel FamiliarRoomL;
     private javax.swing.JTextField FinalPrice;
-    private javax.swing.JButton FormB;
     private javax.swing.JPanel HourComponent;
+    private javax.swing.JTextField ID;
     private javax.swing.JTextField IDTF;
+    private javax.swing.JTextField IDTF1;
     private javax.swing.JTextField IVATF;
+    private javax.swing.JTextField IVATF1;
     private javax.swing.JLabel ImagePreviewProform;
     private javax.swing.JButton InformationB;
     private javax.swing.JPanel InformationPanel;
@@ -3004,14 +3840,25 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel MI4;
     private javax.swing.JLabel MI5;
     private javax.swing.JLabel MI6;
+    private javax.swing.JTextField Mail;
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel ManualPanel;
     private javax.swing.JLabel MatrimonialRoomL;
+    private javax.swing.JTextField Name;
     private javax.swing.JTextField NameTF;
+    private javax.swing.JTextField NameTF1;
     private javax.swing.JTextField Nights;
     private javax.swing.JTextField OutDate;
     private javax.swing.JLabel PersonalRoomL;
+    private javax.swing.JTextField Phone;
     private javax.swing.JTextField PhoneTF;
+    private javax.swing.JTextField PhoneTF1;
+    private javax.swing.JTextField Price;
+    private javax.swing.JPanel ProformPanel;
+    private javax.swing.JTable ProformTable;
+    private javax.swing.JButton ProformaB;
+    private com.toedter.calendar.JDateChooser ProformaINDATE;
+    private com.toedter.calendar.JDateChooser ProformaOUTDATE;
     private javax.swing.JDialog QuoteDialog;
     private javax.swing.JButton RentB;
     private javax.swing.JLabel Room10Image;
@@ -3057,6 +3904,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JTextField RoomCodeTF2;
     private javax.swing.JDialog RoomDataDialog;
     private javax.swing.JDialog RoomInfoDialog;
+    private javax.swing.JList<String> RoomList;
     private javax.swing.JLabel RoomNameProform;
     private javax.swing.JTextField RoomPrice;
     private javax.swing.JButton RoomRent1;
@@ -3090,25 +3938,36 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel SI4;
     private javax.swing.JLabel SI5;
     private javax.swing.JTextField SearchTF;
+    private javax.swing.JTextField SearchTF1;
     private javax.swing.JButton SellsB;
     private javax.swing.JButton SendDataToBill;
     private javax.swing.JLabel SimpleRoomL;
     private javax.swing.JLabel SimpleRoomL1;
     private javax.swing.JLabel SimpleRoomL2;
     private javax.swing.JButton SingInB;
-    private javax.swing.JLabel SliderDaysInfo;
     private javax.swing.JTextField SubtotalTF;
+    private javax.swing.JTextField SubtotalTF1;
     private javax.swing.JButton SwitchAccountB;
     private javax.swing.JTextField TotalDays;
     private javax.swing.JTextField TotalTF;
+    private javax.swing.JTextField TotalTF1;
     private javax.swing.JTextField Type;
+    private javax.swing.JLabel clientRegistVal;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
+    private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton25;
     private javax.swing.JButton jButton26;
     private javax.swing.JButton jButton27;
@@ -3116,10 +3975,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JButton jButton29;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton30;
-    private javax.swing.JButton jButton31;
-    private javax.swing.JButton jButton32;
     private javax.swing.JButton jButton33;
-    private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton35;
     private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton37;
@@ -3130,7 +3986,6 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JButton jButton41;
     private javax.swing.JButton jButton42;
     private javax.swing.JButton jButton43;
-    private javax.swing.JButton jButton44;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -3196,16 +4051,30 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel78;
     private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel92;
@@ -3218,6 +4087,7 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSpinner jSpinner1;
@@ -3225,13 +4095,10 @@ public class Principal_Hotel extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JTextField searchField;
+    private javax.swing.JTextField searchRoomsField;
     // End of variables declaration//GEN-END:variables
 }
